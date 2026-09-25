@@ -1,0 +1,10 @@
+{
+  "description": "This platform offers tailored business software solutions, including ERP and POS systems, designed to enhance operational efficiency for companies in Sri Lanka.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
