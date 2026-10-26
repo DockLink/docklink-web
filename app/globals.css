@@ -97,7 +97,8 @@
 :root {
   --dur-fast: 120ms;   /* hover, colour changes */
   --dur-base: 180ms;   /* menus, tabs, crossfades */
-  --dur-slow: 320ms;   /* accordions, the one hero load moment */
+  --dur-slow: 320ms;   /* accordions */
+  --dur-enter: 760ms;  /* the one hero load moment */
   --gradient-brand: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%);
   /* Soft blue glow placed directly behind the hero product shot; fully transparent at its edges */
   --gradient-hero:
@@ -113,15 +114,57 @@
   background-image: var(--gradient-hero);
 }
 
-/* The one orchestrated load moment on the site (home hero).
-   Elements rise 12px and fade in, staggered with --enter-delay.
-   Reduced motion makes this instant via the global rule below. */
+/* ═══ The one orchestrated load moment on the site (home hero) ═══════
+   Stagger with --enter-delay. `both` fill + the global reduced-motion
+   rule means visitors who opt out simply see the final state. */
+
+/* Copy and actions: rise 12px and fade in */
 @keyframes enter-rise {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
 }
 .enter {
-  animation: enter-rise calc(var(--dur-slow) * 2) var(--ease-standard) both;
+  animation: enter-rise var(--dur-enter) var(--ease-standard) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* Headline: each line slides up from behind a mask.
+   The padding/negative margin keeps descenders (y, p) from being clipped. */
+@keyframes line-up {
+  from { transform: translateY(110%); }
+  to   { transform: none; }
+}
+.enter-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.enter-line > span {
+  display: block;
+  animation: line-up var(--dur-enter) var(--ease-standard) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* Product shot: tilts up from a slight 3D angle and settles flat */
+@keyframes shot-settle {
+  from { opacity: 0; transform: perspective(2400px) rotateX(16deg) translateY(56px) scale(0.96); }
+  60%  { opacity: 1; }
+  to   { opacity: 1; transform: none; }
+}
+.enter-shot {
+  transform-origin: 50% 0%;
+  animation: shot-settle calc(var(--dur-enter) * 1.5) var(--ease-standard) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+/* Glow behind the shot fades in as it settles */
+@keyframes glow-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.enter-glow {
+  animation: glow-in calc(var(--dur-enter) * 2) ease-out both;
   animation-delay: var(--enter-delay, 0ms);
 }
 
@@ -184,6 +227,8 @@ p {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
+    /* Delays too: otherwise staggered entrances still pop in one by one */
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }

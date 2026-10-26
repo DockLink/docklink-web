@@ -103,7 +103,8 @@ const spacingScale = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32];
 const motionTokens = [
   { token: "--dur-fast", value: "120ms", use: "Hover and colour changes" },
   { token: "--dur-base", value: "180ms", use: "Menus, tabs, screenshot crossfades" },
-  { token: "--dur-slow", value: "320ms", use: "Accordions, the single hero load moment" },
+  { token: "--dur-slow", value: "320ms", use: "Accordions" },
+  { token: "--dur-enter", value: "760ms", use: "The single home-hero load moment only" },
   { token: "ease-standard", value: "cubic-bezier(.2,.7,.2,1)", use: "Everything entering or changing" },
   { token: "ease-exit", value: "cubic-bezier(.4,0,1,1)", use: "Things leaving the screen" },
 ];
