@@ -2,92 +2,15 @@
 
 import { companyStats } from '@/data/company'
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import DeliveredWorkCarousel from '@/components/DeliveredWorkCarousel'
+import Hero from '@/components/home/Hero'
 import { DocLinkIcon, type DocLinkIconName } from '@/components/icons/DocLinkIcons'
-
-const HeroScene = dynamic(() => import('@/components/HeroScene'), {
-  ssr: false,
-  loading: () => (
-    <div
-      className="w-full h-[520px] xl:h-[600px] bg-transparent"
-      aria-hidden
-    />
-  ),
-})
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-[11.5px] font-bold uppercase tracking-[0.12em] text-[#1D4ED8] mb-4">{children}</p>
-  )
-}
-
-// ─── 1. HERO ──────────────────────────────────────────────────────────────────
-function Hero() {
-  return (
-    <section className="relative flex items-start pt-[88px] overflow-x-clip bg-white">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="blob absolute -top-40 right-0 w-[600px] h-[600px] opacity-[0.18]"
-          style={{ background: 'radial-gradient(circle, #1D4ED8 0%, transparent 70%)' }} />
-        <div className="blob-2 absolute top-60 -right-20 w-[320px] h-[320px] opacity-[0.10]"
-          style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 70%)' }} />
-        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
-          <defs><pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="#1D4ED8"/></pattern></defs>
-          <rect width="100%" height="100%" fill="url(#dots)"/>
-        </svg>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-4 pb-8 grid lg:grid-cols-[1fr_600px] gap-10 xl:gap-12 items-center w-full">
-        <div className="max-w-[640px]">
-          <div className="fade-up-1 inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full mb-7">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] animate-pulse" />
-            <span className="text-[11.5px] font-semibold text-[#1D4ED8] tracking-wide">ERP · POS · Custom Software · Sri Lanka</span>
-          </div>
-
-          <h1 className="fade-up-2 font-display font-black text-[44px] sm:text-[56px] lg:text-[64px] xl:text-[80px] leading-[0.98] tracking-[-0.035em] text-slate-900 mb-6">
-            Run Your Business<br />
-            <span className="gradient-text">Without the</span><br />
-            Paper Trail
-          </h1>
-
-          <p className="fade-up-3 text-[17px] text-slate-500 leading-relaxed mb-9 max-w-[460px]">
-            ERP, POS, and custom software that replaces the spreadsheets — without a six-month rollout.
-          </p>
-
-          <div className="fade-up-4 flex flex-wrap gap-3">
-            <Link
-              href="/contact"
-              className="px-7 py-3.5 gradient-brand text-white font-semibold rounded-full text-[15px] transition-all hover:shadow-xl hover:shadow-blue-300/30 hover:-translate-y-0.5 active:translate-y-0"
-            >
-              Book a Free Consultation
-            </Link>
-            <Link
-              href="/products"
-              className="px-7 py-3.5 bg-white border border-slate-200 text-slate-800 font-semibold rounded-full text-[15px] transition-all hover:border-blue-300 hover:text-[#1D4ED8] hover:-translate-y-0.5"
-            >
-              View Products
-            </Link>
-          </div>
-
-          <ul className="fade-up-5 mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13px] text-slate-600">
-            {['Free 20-minute consultation', 'Fixed-price quotes', 'Local support in Colombo'].map((t) => (
-              <li key={t} className="flex items-center gap-1.5">
-                <svg className="w-4 h-4 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="hidden lg:block relative -mr-4 xl:mr-0">
-          <HeroScene />
-        </div>
-      </div>
-    </section>
   )
 }
 

@@ -99,12 +99,30 @@
   --dur-base: 180ms;   /* menus, tabs, crossfades */
   --dur-slow: 320ms;   /* accordions, the one hero load moment */
   --gradient-brand: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%);
+  /* Soft blue glow placed directly behind the hero product shot; fully transparent at its edges */
+  --gradient-hero:
+    radial-gradient(50% 50% at 50% 50%, rgb(29 78 216 / 0.18), rgb(29 78 216 / 0.06) 55%, transparent 100%);
 }
 
 /* The brand gradient is allowed in exactly three places:
    hero background, primary buttons, stat highlights. */
 @utility bg-gradient-brand {
   background-image: var(--gradient-brand);
+}
+@utility bg-gradient-hero {
+  background-image: var(--gradient-hero);
+}
+
+/* The one orchestrated load moment on the site (home hero).
+   Elements rise 12px and fade in, staggered with --enter-delay.
+   Reduced motion makes this instant via the global rule below. */
+@keyframes enter-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.enter {
+  animation: enter-rise calc(var(--dur-slow) * 2) var(--ease-standard) both;
+  animation-delay: var(--enter-delay, 0ms);
 }
 
 /* ═══ Base ═══════════════════════════════════════════════════════════ */

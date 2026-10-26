@@ -225,7 +225,10 @@ export default function StyleguidePage() {
               Used in exactly three places: the hero background, primary buttons and stat highlights. Never on text,
               icons, cards or section bands.
             </Text>
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex h-28 items-end rounded-surface border border-line bg-gradient-hero p-4 text-sm font-medium text-ink">
+                bg-gradient-hero
+              </div>
               <div className="flex h-28 items-end rounded-surface bg-gradient-brand p-4 text-sm font-medium text-white">
                 bg-gradient-brand
               </div>
