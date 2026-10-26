@@ -1,97 +1,16 @@
 'use client';
 
-import { companyStats } from '@/data/company'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import DeliveredWorkCarousel from '@/components/DeliveredWorkCarousel'
 import Hero from '@/components/home/Hero'
+import ProofBand from '@/components/home/ProofBand'
 import { DocLinkIcon, type DocLinkIconName } from '@/components/icons/DocLinkIcons'
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-[11.5px] font-bold uppercase tracking-[0.12em] text-[#1D4ED8] mb-4">{children}</p>
-  )
-}
-
-// ─── 2. CLIENT LOGOS ──────────────────────────────────────────────────────────
-const clients = ['Emaar', 'Street82', 'GRID', 'A-Design']
-
-function ClientLogos() {
-  return (
-    <section className="pt-6 pb-14 bg-white">
-      <p className="text-center text-[12px] font-medium text-slate-500 uppercase tracking-[0.14em] mb-10 px-6">
-        Trusted by businesses across Sri Lanka
-      </p>
-      <div
-        className="relative overflow-hidden"
-        style={{
-          maskImage:
-            'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent, black 12%, black 88%, transparent)',
-        }}
-      >
-        <div className="marquee-track items-center gap-16 md:gap-24 px-8">
-          {[...clients, ...clients, ...clients, ...clients].map((name, i) => (
-            <span
-              key={`${name}-${i}`}
-              aria-hidden={i >= clients.length || undefined}
-              className="shrink-0 text-[22px] md:text-[26px] font-bold text-slate-500 tracking-tight whitespace-nowrap select-none"
-            >
-              {name}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── 3. DELIVERY AT A GLANCE ──────────────────────────────────────────────────
-const deliveryStats = [
-  companyStats.projects,
-  companyStats.clients,
-  companyStats.countries,
-]
-
-function DeliveryAtAGlance() {
-  return (
-    <section className="py-20 bg-[#FAFBFC] border-y border-slate-100">
-      <div className="max-w-4xl mx-auto px-6 text-center reveal">
-        <p className="text-[11.5px] font-bold uppercase tracking-[0.14em] text-slate-500 mb-4">
-          Delivery at a Glance
-        </p>
-        <h2 className="font-display font-black text-[32px] md:text-[40px] leading-[1.15] tracking-[-0.02em] text-slate-900 mb-14">
-          Built for teams near and far
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-0">
-          {deliveryStats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`flex flex-col items-center ${
-                i > 0 ? 'sm:border-l sm:border-slate-200' : ''
-              }`}
-            >
-              <div className="flex items-start leading-none">
-                <span className="font-display font-black text-[56px] md:text-[76px] tracking-[-0.03em] text-slate-900">
-                  {stat.value.replace('+', '')}
-                </span>
-                {stat.value.endsWith('+') && (
-                  <span className="font-display font-bold text-[32px] md:text-[42px] text-[#3B82F6] mt-1 ml-0.5">
-                    +
-                  </span>
-                )}
-              </div>
-              <p className="mt-3 text-[11.5px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   )
 }
 
@@ -360,8 +279,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <ClientLogos />
-      <DeliveryAtAGlance />
+      <ProofBand />
       <ProductCategories />
       <DeliveredWorkCarousel />
       <OurTechnologies />

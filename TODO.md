@@ -7,10 +7,10 @@ Everything below is on the site today but **unverified**. For each item, tick it
 - [ ] **Phone `+94 11 234 5678` (line 12), marked as a placeholder in the code.** Also hard-coded in `components/Footer.tsx:79` and `components/pages/Contact.tsx:15`
 - [ ] Address "42 Bauddhaloka Mawatha, Colombo 07" (lines 15–16). Also in `Footer.tsx:84`, `Contact.tsx:36, 188`, and the maps link `Contact.tsx:37, 193`
 - [ ] Email `hello@doclink.lk` (line 10). Also `Footer.tsx`, `Contact.tsx`
-- [ ] Stats (lines 25–29): 20+ projects, 15+ clients, 5 countries, 99.9% uptime. Shown on Home ("Delivery at a glance") and About (stats band and "20+ projects later")
+- [ ] Stats (lines 25–29): 20+ projects, 15+ clients, 5 countries, 99.9% uptime. Shown on Home (`components/home/ProofBand.tsx`, "Built for teams near and far") and About (stats band and "20+ projects later")
 
 ## Clients and results
-- [ ] Client list on Home: Emaar, Street82, GRID, A-Design (`components/pages/Home.tsx:95`). Do you have permission to name them? Logos available?
+- [ ] Client list on Home: Emaar, Street82, GRID, A-Design (`data/clients.ts`, shown in `components/home/ProofBand.tsx`). Do you have permission to name them? Logos available?
 - [ ] Carousel clients with no case-study page: **NovaCare, Harbour Bites, Apex Works** (`components/DeliveredWorkCarousel.tsx:72, 85, 98`)
 - [ ] Carousel figures (`DeliveredWorkCarousel.tsx:27–28, 40–41, 53–54, 66–67, 79–80, 92–93, 105–106`): 300 employees, 200 hrs/month, 94%, 3 wks, 6 tools, 34% revenue growth, 12 projects, LKR 0 lost invoices, 4 clinics, 2.4k appointments, 8 outlets, 40% faster checkout, 12 departments, 8.5k SKUs
 - [ ] Carousel photos are Unsplash stock (`DeliveredWorkCarousel.tsx:23, 36, 49, 62, 75, 88, 101`) and are not client photos
@@ -38,8 +38,8 @@ Everything below is on the site today but **unverified**. For each item, tick it
 - [ ] Mobile: "Half the build cost" (`ServiceMobile.tsx:260`), App Store 4.8 / 1.2k reviews and Google Play 4.7 / 2.4k reviews (`ServiceMobile.tsx:188–189`). Whose app is this?
 - [ ] Services: "2–6 wks MVP delivery window" (`components/pages/Services.tsx:12`)
 - [ ] Software: release note "dashboard loads 40% faster" (`ServiceSoftware.tsx:143`)
-- [ ] Home hero promises: "Free 20-minute consultation", "Fixed-price quotes", "Local support in Colombo" (`Home.tsx:75`)
-- [ ] FAQ: "POS 6–10 weeks, ERP 4–6 months" (`Home.tsx:335`), "30-day warranty" and retainers (`Home.tsx:339`), "projects in the UAE, UK, Australia and Southeast Asia" (`Home.tsx:351`)
+- [ ] Home hero promises: "Free 20-minute consultation", "Fixed-price quotes", "Local support in Colombo" (`components/home/Hero.tsx:10`)
+- [ ] FAQ: "POS 6–10 weeks, ERP 4–6 months", "30-day warranty" and retainers, "projects in the UAE, UK, Australia and Southeast Asia" (FAQ answers in `components/pages/Home.tsx`)
 - [ ] Contact: "Response time < 1 business day", "Mon–Fri, 9am–6pm LKT" (`Contact.tsx:210–212`), "Currently accepting new projects"
 - [ ] Trust strip: "Local Hosting & Support", "LKR Pricing", "Encrypted Patient Data", "Local Compliance Standards" (`components/TrustStrip.tsx`)
 
