@@ -23,7 +23,7 @@ const cardBase =
 function ModuleCard({ module, onOpen }: { module: ProductModule; onOpen: (slug: string) => void }) {
   const body = (
     <>
-      <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white">
+      <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white group-active:bg-brand group-active:text-white">
         <ProductIcon name={module.icon} className="size-5" />
       </span>
       <h4 className="mt-5 text-lg font-semibold text-ink">{module.name}</h4>
@@ -38,14 +38,14 @@ function ModuleCard({ module, onOpen }: { module: ProductModule; onOpen: (slug: 
       type="button"
       onClick={() => onOpen(module.slug)}
       aria-controls={`module-${module.slug}`}
-      className={cn(cardBase, "hover:border-line-strong")}
+      className={cn(cardBase, "hover:border-line-strong active:border-line-strong")}
     >
       {body}
       <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-brand">
         See how it works
         <ChevronRight
           aria-hidden
-          className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1"
+          className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1 group-active:translate-x-1"
           strokeWidth={1.75}
         />
       </span>
@@ -143,10 +143,10 @@ export default function ProductERP({
                       aria-controls={`module-${item.slug}-detail`}
                       className="group flex min-h-11 w-full items-center gap-4 py-5 text-left"
                     >
-                      <span className="flex size-10 shrink-0 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) group-hover:bg-brand group-hover:text-white">
+                      <span className="flex size-10 shrink-0 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) group-hover:bg-brand group-hover:text-white group-active:bg-brand group-active:text-white">
                         <ProductIcon name={item.icon} className="size-5" />
                       </span>
-                      <span className="flex-1 text-lg font-medium text-ink transition-colors duration-(--dur-fast) group-hover:text-brand">
+                      <span className="flex-1 text-lg font-medium text-ink transition-colors duration-(--dur-fast) group-hover:text-brand group-active:text-brand">
                         {item.name}
                       </span>
                       <span
@@ -155,7 +155,7 @@ export default function ProductERP({
                           "flex size-8 shrink-0 items-center justify-center rounded-full border transition-[transform,background-color,border-color,color] duration-(--dur-base) ease-standard",
                           open
                             ? "rotate-45 border-brand bg-brand text-white"
-                            : "border-line-strong bg-white text-muted group-hover:border-brand/40",
+                            : "border-line-strong bg-white text-muted group-hover:border-brand/40 group-active:border-brand/40",
                         )}
                       >
                         <Plus className="size-4" strokeWidth={1.75} />

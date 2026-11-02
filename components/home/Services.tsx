@@ -50,9 +50,9 @@ export default function Services() {
               <li key={s.href} className="scroll-rise border-b border-line" style={stagger(i)}>
                 <Link
                   href={s.href}
-                  className="group -mx-3 flex items-start gap-4 sm:items-center rounded-surface px-3 py-6 transition-colors duration-(--dur-fast) ease-standard hover:bg-surface sm:gap-6 sm:py-8"
+                  className="group -mx-3 flex items-start gap-4 sm:items-center rounded-surface px-3 py-6 transition-colors duration-(--dur-fast) ease-standard hover:bg-surface active:bg-surface sm:gap-6 sm:py-8"
                 >
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) group-hover:bg-brand group-hover:text-white">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) group-hover:bg-brand group-hover:text-white group-active:bg-brand group-active:text-white">
                     <Icon aria-hidden className="size-5" strokeWidth={1.75} />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -68,7 +68,7 @@ export default function Services() {
                   </div>
                   <ChevronRight
                     aria-hidden
-                    className="size-5 shrink-0 self-center text-subtle transition-[color,transform] duration-(--dur-base) ease-standard group-hover:translate-x-0.5 group-hover:text-brand"
+                    className="size-5 shrink-0 self-center text-subtle transition-[color,transform] duration-(--dur-base) ease-standard group-hover:translate-x-0.5 group-hover:text-brand group-active:translate-x-0.5 group-active:text-brand"
                     strokeWidth={1.75}
                   />
                 </Link>

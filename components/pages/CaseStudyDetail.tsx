@@ -28,7 +28,7 @@ export default function CaseStudyDetail({ data, cta }: { data: CaseStudyDocument
           <nav aria-label="Breadcrumb" className="enter">
             <ol className="flex items-center gap-1.5 text-sm text-muted">
               <li>
-                <Link href="/case-studies" className="transition-colors duration-(--dur-fast) hover:text-ink">
+                <Link href="/case-studies" className="transition-colors duration-(--dur-fast) hover:text-ink active:text-ink">
                   Case studies
                 </Link>
               </li>

@@ -105,7 +105,7 @@ export default function Contact() {
                     <span className="font-semibold text-slate-700">{email}</span>.
                   </p>
                   <button
-                    className="mt-8 px-6 py-2.5 border border-[#E5E7EB] rounded-full text-[13px] font-semibold text-slate-500 hover:text-slate-800 hover:border-slate-300 transition-colors"
+                    className="mt-8 px-6 py-2.5 border border-[#E5E7EB] rounded-full text-[13px] font-semibold text-slate-500 hover:text-slate-800 hover:border-slate-300 active:text-slate-800 active:border-slate-300 transition-colors"
                     onClick={() => { setSubmitted(false); setEmail('') }}
                   >
                     Send another message
@@ -130,12 +130,12 @@ export default function Contact() {
                       rel={c.label === 'Address' ? 'noreferrer' : undefined}
                       className="flex items-start gap-4 group"
                     >
-                      <div className="w-10 h-10 rounded-xl bg-white border border-[#E5E7EB] flex items-center justify-center text-[#1D4ED8] shrink-0 shadow-sm group-hover:bg-[#1D4ED8] group-hover:text-white group-hover:border-[#1D4ED8] transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-white border border-[#E5E7EB] flex items-center justify-center text-[#1D4ED8] shrink-0 shadow-sm group-hover:bg-[#1D4ED8] group-hover:text-white group-hover:border-[#1D4ED8] group-active:bg-[#1D4ED8] group-active:text-white group-active:border-[#1D4ED8] transition-all">
                         {c.icon}
                       </div>
                       <div className="pt-0.5">
                         <div className="text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500 mb-1">{c.label}</div>
-                        <div className="text-[14px] text-slate-700 group-hover:text-[#1D4ED8] transition-colors leading-snug">{c.value}</div>
+                        <div className="text-[14px] text-slate-700 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] transition-colors leading-snug">{c.value}</div>
                       </div>
                     </a>
                   ))}
@@ -149,7 +149,7 @@ export default function Contact() {
                         key={s.label}
                         href={s.href}
                         aria-label={s.name}
-                        className="w-9 h-9 rounded-xl bg-white border border-[#E5E7EB] flex items-center justify-center text-[12px] font-bold text-slate-500 hover:bg-[#1D4ED8] hover:text-white hover:border-[#1D4ED8] transition-all shadow-sm"
+                        className="w-9 h-9 rounded-xl bg-white border border-[#E5E7EB] flex items-center justify-center text-[12px] font-bold text-slate-500 hover:bg-[#1D4ED8] hover:text-white hover:border-[#1D4ED8] active:bg-[#1D4ED8] active:text-white active:border-[#1D4ED8] transition-all shadow-sm"
                       >
                         {s.label}
                       </a>
@@ -193,7 +193,7 @@ export default function Contact() {
                   href="https://maps.google.com/?q=Bauddhaloka+Mawatha+Colombo+7"
                   target="_blank"
                   rel="noreferrer"
-                  className="absolute bottom-3 right-3 bg-white border border-[#E5E7EB] rounded-lg px-3 py-1.5 text-[11px] font-semibold text-[#1D4ED8] hover:bg-blue-50 transition-colors shadow-sm"
+                  className="absolute bottom-3 right-3 bg-white border border-[#E5E7EB] rounded-lg px-3 py-1.5 text-[11px] font-semibold text-[#1D4ED8] hover:bg-blue-50 active:bg-blue-50 transition-colors shadow-sm"
                 >
                   Open in Maps ↗
                 </a>

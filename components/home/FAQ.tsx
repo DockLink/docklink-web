@@ -66,14 +66,14 @@ export default function FAQ() {
                     aria-expanded={isOpen}
                     aria-controls={`faq-a-${i}`}
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="group flex min-h-11 w-full items-center justify-between gap-6 py-5 text-left text-base font-medium text-ink transition-colors duration-(--dur-fast) hover:text-brand sm:text-lg"
+                    className="group flex min-h-11 w-full items-center justify-between gap-6 py-5 text-left text-base font-medium text-ink transition-colors duration-(--dur-fast) hover:text-brand active:text-brand sm:text-lg"
                   >
                     {faq.q}
                     <span
                       aria-hidden
                       className={cn(
                         "flex size-8 shrink-0 items-center justify-center rounded-full border transition-[transform,background-color,border-color] duration-(--dur-base) ease-standard",
-                        isOpen ? "rotate-45 border-brand bg-brand text-white" : "border-line-strong bg-white text-muted group-hover:border-brand/40",
+                        isOpen ? "rotate-45 border-brand bg-brand text-white" : "border-line-strong bg-white text-muted group-hover:border-brand/40 group-active:border-brand/40",
                       )}
                     >
                       <Plus className="size-4" strokeWidth={1.75} />

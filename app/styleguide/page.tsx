@@ -101,7 +101,7 @@ const typeScale = [
 const spacingScale = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32];
 
 const motionTokens = [
-  { token: "--dur-fast", value: "120ms", use: "Hover and colour changes" },
+  { token: "--dur-fast", value: "120ms", use: "Hover, colour changes, and touch press (:active / group-active)" },
   { token: "--dur-base", value: "180ms", use: "Menus, tabs, screenshot crossfades" },
   { token: "--dur-slow", value: "320ms", use: "Accordions" },
   { token: "--dur-enter", value: "760ms", use: "The single home-hero load moment only" },
@@ -394,9 +394,11 @@ export default function StyleguidePage() {
       <Section space="compact">
         <GroupHeader id="motion" title="Motion">
           Motion answers what someone did. One load moment on the home hero; on the home page, blocks rise 16px as
-          they scroll in (<code>.scroll-rise</code>, CSS scroll timelines, no JS) and stats count up once. Content
-          is never hidden where those aren&apos;t supported, and everything is instant when the visitor prefers
-          reduced motion.
+          they scroll in (<code>.scroll-rise</code>, CSS scroll timelines, no JS) and stats count up once. Hover
+          stays mouse-only; touch uses a press state (<code>:active</code> / <code>group-active</code>) at{" "}
+          <code>--dur-fast</code>. On touch devices without CSS scroll timelines, <code>.scroll-rise</code> and{" "}
+          <code>.scroll-zoom</code> still rise once via IntersectionObserver. Content is never hidden where those
+          aren&apos;t supported, and everything is instant when the visitor prefers reduced motion.
         </GroupHeader>
         <div className="grid gap-10 lg:grid-cols-2">
           <dl className="divide-y divide-line rounded-surface border border-line text-sm">

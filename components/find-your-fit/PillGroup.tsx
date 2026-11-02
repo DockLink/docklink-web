@@ -19,7 +19,7 @@ export default function PillGroup({
             className={`px-4 py-2 rounded-full text-[13px] font-medium border transition-all ${
               selected
                 ? 'bg-[#1D4ED8] border-[#1D4ED8] text-white'
-                : 'bg-white border-[#E5E7EB] text-slate-600 hover:border-slate-300 hover:text-slate-800'
+                : 'bg-white border-[#E5E7EB] text-slate-600 hover:border-slate-300 hover:text-slate-800 active:border-slate-300 active:text-slate-800'
             }`}
           >
             {opt}

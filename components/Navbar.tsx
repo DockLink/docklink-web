@@ -27,7 +27,7 @@ function MenuItem({ item, onNavigate }: { item: NavItem; onNavigate?: () => void
     <Link
       href={item.href}
       onClick={onNavigate}
-      className="flex items-start gap-3 rounded-control p-2.5 transition-colors duration-(--dur-fast) hover:bg-surface"
+      className="flex items-start gap-3 rounded-control p-2.5 transition-colors duration-(--dur-fast) hover:bg-surface active:bg-surface"
     >
       <span className="flex size-9 shrink-0 items-center justify-center rounded-control bg-brand-soft text-brand">
         <Icon aria-hidden className="size-[18px]" strokeWidth={1.75} />
@@ -171,7 +171,7 @@ export default function Navbar() {
                       aria-expanded={open}
                       aria-controls={`nav-menu-${menu.key}`}
                       onClick={() => setOpenMenu(open ? null : menu.key)}
-                      className={cn(topLink, active || open ? "text-ink" : "text-muted hover:text-ink", open && "bg-surface")}
+                      className={cn(topLink, active || open ? "text-ink" : "text-muted hover:text-ink active:text-ink", open && "bg-surface")}
                     >
                       {menu.label}
                       <ChevronDown
@@ -194,7 +194,7 @@ export default function Navbar() {
                           ))}
                         </ul>
                         <div className="mt-1 border-t border-line px-2.5 pb-1 pt-2.5">
-                          <Link href={menu.all.href} className="text-sm font-medium text-brand hover:text-brand-hover">
+                          <Link href={menu.all.href} className="text-sm font-medium text-brand hover:text-brand-hover active:text-brand-hover">
                             {menu.all.label}
                           </Link>
                         </div>
@@ -210,7 +210,7 @@ export default function Navbar() {
                     <Link
                       href={l.href}
                       aria-current={isActive(l.href) ? "page" : undefined}
-                      className={cn(topLink, isActive(l.href) ? "text-ink" : "text-muted hover:text-ink")}
+                      className={cn(topLink, isActive(l.href) ? "text-ink" : "text-muted hover:text-ink active:text-ink")}
                     >
                       {l.name}
                     </Link>
@@ -225,7 +225,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 aria-current={isActive("/contact") ? "page" : undefined}
-                className={cn(topLink, isActive("/contact") ? "text-ink" : "text-muted hover:text-ink")}
+                className={cn(topLink, isActive("/contact") ? "text-ink" : "text-muted hover:text-ink active:text-ink")}
               >
                 Contact
               </Link>
@@ -241,7 +241,7 @@ export default function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
-              className="-mr-2 flex size-11 items-center justify-center rounded-control text-ink hover:bg-surface lg:hidden"
+              className="-mr-2 flex size-11 items-center justify-center rounded-control text-ink hover:bg-surface active:bg-surface lg:hidden"
             >
               {mobileOpen ? <X aria-hidden className="size-5" /> : <Menu aria-hidden className="size-5" />}
             </button>
@@ -279,7 +279,7 @@ export default function Navbar() {
                   aria-current={isActive(l.href) ? "page" : undefined}
                   className={cn(
                     "flex h-11 items-center rounded-control px-2.5 text-base font-medium",
-                    isActive(l.href) ? "text-brand" : "text-ink hover:bg-surface",
+                    isActive(l.href) ? "text-brand" : "text-ink hover:bg-surface active:bg-surface",
                   )}
                 >
                   {l.name}

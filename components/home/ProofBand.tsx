@@ -24,7 +24,7 @@ export default function ProofBand() {
               <li key={c.name}>
                 <Link
                   href={`/case-studies/${c.caseStudy}`}
-                  className="text-xl font-semibold tracking-tight text-subtle transition-colors duration-(--dur-fast) hover:text-ink sm:text-2xl"
+                  className="text-xl font-semibold tracking-tight text-subtle transition-colors duration-(--dur-fast) hover:text-ink active:text-ink sm:text-2xl"
                 >
                   {c.name}
                   <span className="sr-only">: read the case study</span>

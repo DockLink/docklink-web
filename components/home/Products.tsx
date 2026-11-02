@@ -140,7 +140,7 @@ export default function Products() {
       </Heading>
       <Link
         href="/products"
-        className="inline-flex h-11 shrink-0 items-center gap-1 self-start rounded-control text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover sm:self-auto"
+        className="inline-flex h-11 shrink-0 items-center gap-1 self-start rounded-control text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover active:text-brand-hover sm:self-auto"
       >
         Compare all products
         <ChevronRight aria-hidden className="size-4" strokeWidth={1.75} />
@@ -188,7 +188,7 @@ export default function Products() {
                       <span
                         className={cn(
                           "flex size-11 shrink-0 items-center justify-center rounded-control transition-colors duration-(--dur-base) ease-standard",
-                          isActive ? "bg-brand text-white" : "bg-surface text-subtle group-hover:text-ink",
+                          isActive ? "bg-brand text-white" : "bg-surface text-subtle group-hover:text-ink group-active:text-ink",
                         )}
                       >
                         <Icon aria-hidden className="size-5" strokeWidth={1.75} />
@@ -196,7 +196,7 @@ export default function Products() {
                       <h3
                         className={cn(
                           "text-2xl font-semibold transition-colors duration-(--dur-base) ease-standard",
-                          isActive ? "text-ink" : "text-subtle group-hover:text-ink",
+                          isActive ? "text-ink" : "text-subtle group-hover:text-ink group-active:text-ink",
                         )}
                       >
                         {p.name}
@@ -207,7 +207,7 @@ export default function Products() {
                         <p className="max-w-[40ch] pb-1 pl-15 text-base text-muted">{p.benefit}</p>
                         <Link
                           href={p.href}
-                          className="mb-3 ml-15 inline-flex h-11 items-center gap-1 text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover"
+                          className="mb-3 ml-15 inline-flex h-11 items-center gap-1 text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover active:text-brand-hover"
                         >
                           See the {p.short}
                           <ChevronRight aria-hidden className="size-4" strokeWidth={1.75} />
@@ -261,7 +261,7 @@ export default function Products() {
                   <p className="mt-3 max-w-prose text-base text-muted">{p.benefit}</p>
                   <Link
                     href={p.href}
-                    className="inline-flex h-11 items-center gap-1 text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover"
+                    className="inline-flex h-11 items-center gap-1 text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover active:text-brand-hover"
                   >
                     See the {p.short}
                     <ChevronRight aria-hidden className="size-4" strokeWidth={1.75} />

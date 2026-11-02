@@ -34,7 +34,7 @@ export default function ClosingCTA() {
           </Button>
           <a
             href={`mailto:${company.email}`}
-            className="inline-flex h-11 items-center gap-2 rounded-control text-sm font-medium text-on-navy-muted transition-colors duration-(--dur-fast) hover:text-white"
+            className="inline-flex h-11 items-center gap-2 rounded-control text-sm font-medium text-on-navy-muted transition-colors duration-(--dur-fast) hover:text-white active:text-white"
           >
             <Mail aria-hidden className="size-4" strokeWidth={1.75} />
             Or email {company.email}

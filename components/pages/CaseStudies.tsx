@@ -46,7 +46,7 @@ function ReadMore({ client }: { client: string }) {
       Read the {client} story
       <ChevronRight
         aria-hidden
-        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1"
+        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1 group-active:translate-x-1"
         strokeWidth={1.75}
       />
     </span>

@@ -130,6 +130,7 @@ const industryIcons: Record<string, LucideIcon> = {
 const railButton =
   "inline-flex size-11 items-center justify-center rounded-control border border-line-strong bg-white text-ink " +
   "transition-colors duration-(--dur-fast) ease-standard hover:border-ink/30 hover:bg-surface " +
+  "active:border-ink/30 active:bg-surface " +
   "disabled:pointer-events-none disabled:opacity-40";
 
 /**
@@ -179,7 +180,7 @@ export default function DeliveredWorkCarousel() {
           <div className="flex items-center gap-2">
             <Link
               href="/case-studies"
-              className="mr-2 inline-flex h-11 items-center gap-1 rounded-control text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover"
+              className="mr-2 inline-flex h-11 items-center gap-1 rounded-control text-sm font-medium text-brand transition-colors duration-(--dur-fast) hover:text-brand-hover active:text-brand-hover"
             >
               All case studies
               <ChevronRight aria-hidden className="size-4" strokeWidth={1.75} />
@@ -219,7 +220,7 @@ export default function DeliveredWorkCarousel() {
                   fill
                   sizes="320px"
                   loading={i < 3 ? "eager" : "lazy"}
-                  className="object-cover transition-transform duration-500 ease-standard group-hover:scale-[1.04]"
+                  className="object-cover transition-transform duration-500 ease-standard group-hover:scale-[1.04] group-active:scale-[1.04]"
                 />
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-navy/5" />
 

@@ -214,6 +214,40 @@
   }
 }
 
+/* ═══ Touch press: the hover equivalent on phones ════════════════════
+   Hover never fires on coarse pointers, so the same cards, shots and
+   borders get a brief press state instead. Mouse/trackpad still use the
+   block above; this layer does not run there. */
+@media (hover: none) {
+  .spotlight {
+    -webkit-tap-highlight-color: transparent;
+    transition: transform var(--dur-fast) var(--ease-standard),
+                border-color var(--dur-fast) var(--ease-standard);
+  }
+  /* Static center glow — not the cursor-follow spotlight */
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(460px circle at 50% 50%, rgb(29 78 216 / 0.1), transparent 60%);
+    transition: opacity var(--dur-fast) var(--ease-standard);
+  }
+  .spotlight:active {
+    border-color: var(--color-line-strong);
+    transform: scale(0.99);
+  }
+  .spotlight:active::before {
+    opacity: 1;
+  }
+  .group:active .shot-lift {
+    transform: translateY(-6px);
+  }
+}
+
 /* Word-by-word statement: words are ink by default (the resting state) */
 .statement-word {
   color: var(--color-ink);
@@ -356,6 +390,37 @@
       animation-range:
         cover calc(18% + (var(--i) / var(--n)) * 36%)
         cover calc(22% + (var(--i) / var(--n)) * 36%);
+    }
+  }
+}
+
+/* ═══ Touch scroll-rise fallback ═════════════════════════════════════
+   CSS scroll timelines never run on some phones. One-shot IntersectionObserver
+   (components/motion/ScrollRiseFallback.tsx) adds .is-inview. Desktop hover
+   devices and browsers with animation-timeline keep the resting, visible state
+   (or the timeline block above). */
+@media (prefers-reduced-motion: no-preference) and (hover: none) {
+  @supports not (animation-timeline: view()) {
+    .scroll-rise {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity var(--dur-slow) var(--ease-standard),
+                  transform var(--dur-slow) var(--ease-standard);
+      transition-delay: calc(var(--rise-i, 0) * 40ms);
+    }
+    .scroll-rise.is-inview {
+      opacity: 1;
+      transform: none;
+    }
+    .scroll-zoom {
+      opacity: 0.35;
+      transform: translateY(24px) scale(0.98);
+      transition: opacity var(--dur-slow) var(--ease-standard),
+                  transform var(--dur-slow) var(--ease-standard);
+    }
+    .scroll-zoom.is-inview {
+      opacity: 1;
+      transform: none;
     }
   }
 }

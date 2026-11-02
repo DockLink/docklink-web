@@ -26,7 +26,7 @@ function CardArrow({ label }: { label: string }) {
       {clean(label)}
       <ChevronRight
         aria-hidden
-        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1"
+        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1 group-active:translate-x-1"
         strokeWidth={1.75}
       />
     </span>
@@ -58,7 +58,7 @@ export default function Services({ listing, services }: { listing: ServiceListin
             <article className="scroll-rise spotlight group relative grid overflow-hidden rounded-surface border border-line bg-surface transition-colors duration-(--dur-base) hover:border-line-strong lg:grid-cols-12">
               <div className="flex flex-col justify-center p-6 sm:p-10 lg:col-span-5 lg:p-12">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="flex size-12 items-center justify-center rounded-control bg-brand text-white shadow-hairline transition-transform duration-(--dur-slow) ease-standard group-hover:-rotate-6">
+                  <span className="flex size-12 items-center justify-center rounded-control bg-brand text-white shadow-hairline transition-transform duration-(--dur-slow) ease-standard group-hover:-rotate-6 group-active:-rotate-6">
                     <ProductIcon name={flagship.icon} className="size-6" />
                   </span>
                   {/* The CMS tagline may already say "Flagship"; don't repeat it */}
@@ -89,7 +89,7 @@ export default function Services({ listing, services }: { listing: ServiceListin
             {rest.map((s, i) => (
               <li key={s.slug} className="scroll-rise" style={{ "--rise-i": i } as CSSProperties}>
                 <article className="spotlight group relative flex h-full flex-col rounded-surface border border-line bg-white p-6 transition-colors duration-(--dur-base) hover:border-line-strong sm:p-8">
-                  <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white">
+                  <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white group-active:bg-brand group-active:text-white">
                     <ProductIcon name={s.icon} className="size-5" />
                   </span>
                   <h2 className="mt-6 text-xl font-semibold text-ink">

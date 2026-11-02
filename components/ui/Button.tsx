@@ -7,16 +7,17 @@ export type ButtonSize = "md" | "lg";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-control font-medium whitespace-nowrap select-none " +
-  "transition-[background-color,border-color,color,filter] duration-(--dur-fast) ease-standard " +
+  "transition-[background-color,border-color,color,filter,transform] duration-(--dur-fast) ease-standard " +
+  "active:scale-[0.98] " +
   "disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50";
 
 const variants: Record<ButtonVariant, string> = {
   // Gradient is reserved for the primary action (brief: buttons, hero bg, stat highlights)
   primary: "bg-gradient-brand text-white shadow-hairline hover:brightness-110 active:brightness-95",
-  secondary: "border border-line-strong bg-white text-ink hover:border-ink/30 hover:bg-surface",
-  ghost: "text-brand hover:bg-brand-soft hover:text-brand-hover",
+  secondary: "border border-line-strong bg-white text-ink hover:border-ink/30 hover:bg-surface active:border-ink/30 active:bg-surface",
+  ghost: "text-brand hover:bg-brand-soft hover:text-brand-hover active:bg-brand-soft active:text-brand-hover",
   // For use on navy bands
-  inverse: "bg-white text-navy hover:bg-white/90",
+  inverse: "bg-white text-navy hover:bg-white/90 active:bg-white/90",
 };
 
 const sizes: Record<ButtonSize, string> = {

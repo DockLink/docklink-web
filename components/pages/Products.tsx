@@ -47,7 +47,7 @@ export default function Products({ listing, products }: { listing: ProductListin
               <li key={p.slug} className="scroll-rise">
                 <article className="spotlight group relative grid overflow-hidden rounded-surface border border-line bg-surface transition-colors duration-(--dur-base) hover:border-line-strong lg:grid-cols-12">
                   <div className={cn("flex flex-col justify-center p-6 sm:p-10 lg:col-span-5 lg:p-12", flip && "lg:order-2")}>
-                    <span className="flex size-12 items-center justify-center rounded-control bg-white text-brand shadow-hairline transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white">
+                    <span className="flex size-12 items-center justify-center rounded-control bg-white text-brand shadow-hairline transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white group-active:bg-brand group-active:text-white">
                       <ProductIcon name={p.icon} className="size-6" />
                     </span>
                     <h2 className="mt-6 text-3xl font-semibold text-ink">
@@ -64,7 +64,7 @@ export default function Products({ listing, products }: { listing: ProductListin
                       {clean(p.listingCta)}
                       <ChevronRight
                         aria-hidden
-                        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1"
+                        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1 group-active:translate-x-1"
                         strokeWidth={1.75}
                       />
                     </span>

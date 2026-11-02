@@ -190,7 +190,7 @@ export default function About() {
                   className="scroll-rise spotlight group rounded-surface border border-line bg-white p-5 transition-colors duration-(--dur-base) hover:border-line-strong"
                   style={{ "--rise-i": i } as CSSProperties}
                 >
-                  <span className="flex size-10 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white">
+                  <span className="flex size-10 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white group-active:bg-brand group-active:text-white">
                     <Icon aria-hidden className="size-5" strokeWidth={1.75} />
                   </span>
                   <p className="mt-4 font-medium text-ink">{label}</p>
@@ -220,7 +220,7 @@ export default function About() {
             >
               <span
                 aria-hidden
-                className="flex size-14 items-center justify-center rounded-full bg-navy text-base font-semibold text-white transition-[background-color,transform] duration-(--dur-slow) ease-standard group-hover:-translate-y-0.5 group-hover:bg-brand"
+                className="flex size-14 items-center justify-center rounded-full bg-navy text-base font-semibold text-white transition-[background-color,transform] duration-(--dur-slow) ease-standard group-hover:-translate-y-0.5 group-hover:bg-brand group-active:-translate-y-0.5 group-active:bg-brand"
               >
                 {member.initials}
               </span>

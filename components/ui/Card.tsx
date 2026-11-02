@@ -19,7 +19,7 @@ export default function Card({ href, tone = "white", padding = "md", as: Tag = "
     "block rounded-surface border border-line",
     tone === "white" ? "bg-white" : "bg-surface",
     paddings[padding],
-    href && "transition-colors duration-(--dur-fast) ease-standard hover:border-line-strong hover:bg-surface/60",
+    href && "transition-colors duration-(--dur-fast) ease-standard hover:border-line-strong hover:bg-surface/60 active:border-line-strong active:bg-surface/60",
     className,
   );
 

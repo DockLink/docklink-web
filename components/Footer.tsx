@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/Section";
 import { company } from "@/data/company";
 import { companyLinks, productLinks, serviceLinks } from "@/data/navigation";
 
-const linkClass = "text-sm text-muted transition-colors duration-(--dur-fast) hover:text-ink";
+const linkClass = "text-sm text-muted transition-colors duration-(--dur-fast) hover:text-ink active:text-ink";
 
 function Column({ title, links }: { title: string; links: { name: string; href: string }[] }) {
   return (

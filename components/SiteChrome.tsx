@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import ScrollRiseFallback from "@/components/motion/ScrollRiseFallback";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import SpotlightTracker from "@/components/motion/SpotlightTracker";
 
@@ -27,6 +28,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     <>
       <SmoothScroll />
       <SpotlightTracker />
+      <ScrollRiseFallback />
       <Navbar />
       <main id="main" className="flex-1">
         {children}

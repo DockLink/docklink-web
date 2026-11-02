@@ -47,7 +47,7 @@ export default function ProductHero({
         <nav aria-label="Breadcrumb" className="enter">
           <ol className="flex items-center gap-1.5 text-sm text-muted">
             <li>
-              <Link href={parent.href} className="transition-colors duration-(--dur-fast) hover:text-ink">
+              <Link href={parent.href} className="transition-colors duration-(--dur-fast) hover:text-ink active:text-ink">
                 {parent.label}
               </Link>
             </li>
