@@ -1,156 +1,154 @@
-'use client';
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import ProductCTA from "@/components/ProductCTA";
+import Shot from "@/components/products/Shot";
+import { caseShotFor } from "@/components/products/shots";
+import { Container, Section } from "@/components/ui/Section";
+import { Heading } from "@/components/ui/Typography";
+import { cn } from "@/components/ui/cn";
+import type { CaseStudyListing, CaseStudySummary } from "@/lib/cms/types";
 
-import Link from 'next/link'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
+const delay = (ms: number) => ({ "--enter-delay": `${ms}ms` }) as CSSProperties;
 
-const cases = [
-  {
-    id: 'emaar',
-    client: 'Emaar',
-    industry: 'Payroll & HR',
-    gradient: 'from-[#1e3a8a] to-[#1D4ED8]',
-    headline: 'How Emaar automated payroll for 300 employees and cut processing time to minutes',
-    stats: [
-      { number: '300', label: 'employees on automated payroll' },
-      { number: '200 hrs', label: 'saved per month on payroll processing' },
-    ],
-  },
-  {
-    id: 'street82',
-    client: 'Street82',
-    industry: 'Retail ERP & Inventory',
-    gradient: 'from-[#1D4ED8] to-[#0284c7]',
-    headline: 'How Street82 cut stock discrepancies to near zero across three branches',
-    stats: [
-      { number: '94%', label: 'reduction in inventory counting errors' },
-      { number: '3 wks', label: 'from kickoff to full system deployment' },
-    ],
-  },
-  {
-    id: 'grid',
-    client: 'GRID',
-    industry: 'Custom Software Platform',
-    gradient: 'from-[#1e3a8a] to-[#1D4ED8]',
-    headline: 'How GRID replaced six internal tools with one custom platform and actually got their team to use it',
-    stats: [
-      { number: '6', label: 'legacy tools replaced by a single system' },
-      { number: '4 mo', label: 'end-to-end delivery including training' },
-    ],
-  },
-  {
-    id: 'a-design',
-    client: 'A-Design',
-    industry: 'Project & Client Management',
-    gradient: 'from-[#1D4ED8] to-[#0284c7]',
-    headline: 'How A-Design tracks every client, project, and invoice in one place — and hasn\'t lost an invoice since',
-    stats: [
-      { number: '100%', label: 'of projects tracked digitally, no spreadsheets' },
-      { number: 'LKR 0', label: 'in invoices lost or uncollected since launch' },
-    ],
-  },
-]
+/** Stretched link: makes the whole card clickable with a single focus stop */
+const stretched =
+  "after:absolute after:inset-0 after:z-10 after:rounded-surface focus-visible:outline-none " +
+  "focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-brand";
 
-export default function CaseStudies() {
-  useScrollReveal()
+function Stats({ study, large }: { study: CaseStudySummary; large?: boolean }) {
+  const stats = study.stats.slice(0, 2);
+  if (!stats.length) return null;
+  return (
+    // [TBC] Case-study figures are unverified (see TODO.md)
+    <dl className="grid grid-cols-2 gap-6 border-t border-line pt-6">
+      {stats.map((s) => (
+        <div key={s.id} className="flex flex-col-reverse justify-end">
+          <dt className="mt-1.5 text-sm text-muted">{s.label}</dt>
+          {/* Stat highlight: a permitted use of the brand gradient */}
+          <dd
+            className={cn(
+              "whitespace-nowrap bg-gradient-brand bg-clip-text font-semibold text-transparent tabular-nums",
+              large ? "text-4xl xl:text-5xl" : "text-2xl sm:text-3xl",
+            )}
+          >
+            {s.number}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function ReadMore({ client }: { client: string }) {
+  return (
+    <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-brand">
+      Read the {client} story
+      <ChevronRight
+        aria-hidden
+        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1"
+        strokeWidth={1.75}
+      />
+    </span>
+  );
+}
+
+export default function CaseStudies({
+  listing,
+  studies,
+}: {
+  listing: CaseStudyListing;
+  studies: CaseStudySummary[];
+}) {
+  const [lead, ...rest] = studies;
+
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-28 pb-20 bg-white overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="blob absolute -top-24 right-0 w-[440px] h-[440px] opacity-[0.10]"
-            style={{ background: 'radial-gradient(circle,#1D4ED8 0%,transparent 70%)' }}
-          />
-          <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="csgrid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="#1D4ED8"/></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#csgrid)"/>
-          </svg>
-        </div>
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <div className="fade-up-1 inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] animate-pulse"/>
-            <span className="text-[11.5px] font-semibold text-[#1D4ED8] tracking-wide">Case Studies</span>
-          </div>
-          <h1 className="fade-up-2 font-display font-black text-[37px] sm:text-[48px] xl:text-[62px] leading-[1.05] tracking-[-0.02em] text-slate-900 mb-5">
-            Real Businesses,{' '}
-            <span className="gradient-text">Real Results</span>
-          </h1>
-          <p className="fade-up-3 text-[16px] text-slate-500 max-w-xl mx-auto">
-            Four Sri Lankan businesses that replaced paper, spreadsheets, and guesswork with software that works.
+      <section aria-labelledby="case-studies-title" className="bg-white">
+        <Container className="pb-12 pt-10 sm:pb-16 sm:pt-14 lg:pt-16">
+          {listing.eyebrow && <p className="enter text-sm font-medium text-brand">{listing.eyebrow}</p>}
+          <Heading level={1} size="1" id="case-studies-title" className="enter mt-4 max-w-[20ch]" style={delay(80)}>
+            {listing.headline}
+          </Heading>
+          <p className="enter mt-5 max-w-[56ch] text-lg text-muted sm:text-xl" style={delay(200)}>
+            {listing.subhead}
           </p>
-        </div>
+        </Container>
       </section>
 
-      {/* Case study grid */}
-      <section className="pb-28 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-6">
-            {cases.map((cs, i) => (
-              <Link
-                key={cs.id}
-                href={`/case-studies/${cs.id}`}
-                className={`group block rounded-[20px] border border-[#E5E7EB] bg-white overflow-hidden transition-all hover:-translate-y-1.5 hover:shadow-xl hover:shadow-slate-200/70 hover:border-slate-200 reveal reveal-delay-${(i % 2) + 1}`}
-              >
-                {/* Gradient header */}
-                <div className={`h-[140px] bg-gradient-to-br ${cs.gradient} relative overflow-hidden`}>
-                  {/* Subtle dot texture */}
-                  <div className="absolute inset-0 opacity-[0.08]">
-                    <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                      <defs><pattern id={`dots-${cs.id}`} width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="white"/></pattern></defs>
-                      <rect width="100%" height="100%" fill={`url(#dots-${cs.id})`}/>
-                    </svg>
-                  </div>
-                  {/* Client initial mark */}
-                  <div className="absolute bottom-5 left-6 flex items-end gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-white/20 border border-white/30 flex items-center justify-center">
-                      <span className="font-display font-black text-white text-xl leading-none">
-                        {cs.client[0]}
-                      </span>
-                    </div>
-                    <span className="font-display font-black text-white/90 text-[22px] leading-none pb-0.5">
-                      {cs.client}
-                    </span>
-                  </div>
-                  {/* Industry tag */}
-                  <div className="absolute top-5 right-5">
-                    <span className="inline-flex items-center px-3 py-1 bg-white/15 border border-white/25 rounded-full text-[11px] font-semibold text-white backdrop-blur-sm">
-                      {cs.industry}
-                    </span>
-                  </div>
+      {lead && (
+        <Section space="none" className="pb-section" aria-label="Case studies">
+          <div className="grid gap-4 md:gap-6">
+            {/* The newest story, as a wide panel above the rest */}
+            <article
+              className="enter spotlight group relative grid overflow-hidden rounded-surface border border-line bg-surface transition-colors duration-(--dur-base) hover:border-line-strong lg:grid-cols-12"
+              style={delay(320)}
+            >
+              <div className="flex flex-col justify-center p-6 sm:p-10 lg:col-span-5 lg:p-12">
+                <p className="text-sm text-muted">
+                  <span className="font-medium text-ink">{lead.client}</span> · {lead.industry}
+                </p>
+                <h2 className="mt-4 text-2xl font-semibold text-ink sm:text-3xl">
+                  <Link href={`/case-studies/${lead.slug}`} className={stretched}>
+                    {lead.headline}
+                  </Link>
+                </h2>
+                <div className="mt-8">
+                  <Stats study={lead} large />
                 </div>
+                <ReadMore client={lead.client} />
+              </div>
+              <div className="px-6 pb-6 sm:px-10 sm:pb-10 lg:col-span-7 lg:py-12 lg:pl-0 lg:pr-12">
+                <div className="shot-lift">
+                  <Shot shot={caseShotFor(lead.slug, lead.client)} priority />
+                </div>
+              </div>
+            </article>
 
-                {/* Body */}
-                <div className="p-7">
-                  <h2 className="font-display font-bold text-[17px] text-slate-900 leading-snug mb-5">
-                    {cs.headline}
-                  </h2>
-
-                  {/* Divider */}
-                  <div className="h-px bg-[#E5E7EB] mb-5"/>
-
-                  {/* Hard numbers */}
-                  <div className="grid grid-cols-2 gap-5 mb-5">
-                    {cs.stats.map((s) => (
-                      <div key={s.label}>
-                        <div className="font-display font-black text-[30px] xl:text-[34px] text-[#1D4ED8] leading-none mb-1.5">
-                          {s.number}
+            {rest.length > 0 && (
+              <ul className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+                {rest.map((cs, i) => (
+                  <li
+                    key={cs.slug}
+                    // An odd card out at tablet width spans the row instead of leaving a gap
+                    className="scroll-rise md:[&:last-child:nth-child(odd)]:col-span-2 lg:[&:last-child:nth-child(odd)]:col-span-1"
+                    style={{ "--rise-i": i % 3 } as CSSProperties}
+                  >
+                    <article className="spotlight group relative flex h-full flex-col overflow-hidden rounded-surface border border-line bg-white transition-colors duration-(--dur-base) hover:border-line-strong">
+                      <div className="border-b border-line bg-surface p-5 sm:p-6">
+                        <div className="shot-lift">
+                          <Shot shot={caseShotFor(cs.slug, cs.client)} />
                         </div>
-                        <div className="text-[12.5px] text-slate-500 leading-snug">{s.label}</div>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Read more link */}
-                  <div className="flex items-center gap-1.5 text-[13px] font-semibold text-[#1D4ED8] group-hover:gap-3 transition-all">
-                    Read case study
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                      <div className="flex flex-1 flex-col p-6 sm:p-8">
+                        <p className="text-sm text-muted">
+                          <span className="font-medium text-ink">{cs.client}</span> · {cs.industry}
+                        </p>
+                        <h2 className="mt-3 flex-1 text-xl font-semibold text-ink">
+                          <Link href={`/case-studies/${cs.slug}`} className={stretched}>
+                            {cs.headline}
+                          </Link>
+                        </h2>
+                        <div className="mt-6">
+                          <Stats study={cs} />
+                        </div>
+                        <ReadMore client={cs.client} />
+                      </div>
+                    </article>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-        </div>
-      </section>
+        </Section>
+      )}
+
+      <ProductCTA
+        headline={listing.cta.headline}
+        sub={listing.cta.sub}
+        buttonLabel={listing.cta.buttonLabel}
+        href={listing.cta.href}
+      />
     </>
-  )
+  );
 }

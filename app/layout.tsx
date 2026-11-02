@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { company, SITE_URL } from "@/data/company";
 import { Geist } from "next/font/google";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import SiteChrome from "@/components/SiteChrome";
 import "./globals.css";
 
 // Variable font: every weight from one file, no faux bold
@@ -83,9 +82,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <Navbar />
-        <main id="main" className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

@@ -300,6 +300,6 @@ export function DocLinkIcon({
   className,
   ...rest
 }: IconProps & { name: DocLinkIconName }) {
-  const Comp = iconMap[name];
+  const Comp = iconMap[name] ?? IconERP;
   return <Comp size={size} className={className} {...rest} />;
 }

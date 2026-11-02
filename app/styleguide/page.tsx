@@ -105,6 +105,7 @@ const motionTokens = [
   { token: "--dur-base", value: "180ms", use: "Menus, tabs, screenshot crossfades" },
   { token: "--dur-slow", value: "320ms", use: "Accordions" },
   { token: "--dur-enter", value: "760ms", use: "The single home-hero load moment only" },
+  { token: ".scroll-rise", value: "scroll-linked", use: "Home sections entering the viewport. Stagger siblings with --rise-i" },
   { token: "ease-standard", value: "cubic-bezier(.2,.7,.2,1)", use: "Everything entering or changing" },
   { token: "ease-exit", value: "cubic-bezier(.4,0,1,1)", use: "Things leaving the screen" },
 ];
@@ -227,8 +228,8 @@ export default function StyleguidePage() {
               icons, cards or section bands.
             </Text>
             <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex h-28 items-end rounded-surface border border-line bg-gradient-hero p-4 text-sm font-medium text-ink">
-                bg-gradient-hero
+              <div className="flex h-28 items-end rounded-surface bg-gradient-hero p-4 text-sm font-medium text-white">
+                bg-gradient-hero (hero stage)
               </div>
               <div className="flex h-28 items-end rounded-surface bg-gradient-brand p-4 text-sm font-medium text-white">
                 bg-gradient-brand
@@ -392,8 +393,10 @@ export default function StyleguidePage() {
       {/* ── Motion ─────────────────────────────────────────────────────── */}
       <Section space="compact">
         <GroupHeader id="motion" title="Motion">
-          Motion answers what someone did. One load moment on the home hero, nothing on scroll. Everything is
-          instant when the visitor prefers reduced motion.
+          Motion answers what someone did. One load moment on the home hero; on the home page, blocks rise 16px as
+          they scroll in (<code>.scroll-rise</code>, CSS scroll timelines, no JS) and stats count up once. Content
+          is never hidden where those aren&apos;t supported, and everything is instant when the visitor prefers
+          reduced motion.
         </GroupHeader>
         <div className="grid gap-10 lg:grid-cols-2">
           <dl className="divide-y divide-line rounded-surface border border-line text-sm">

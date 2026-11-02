@@ -1,194 +1,160 @@
-'use client';
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import { Building2, CalendarDays, ChevronRight, MapPin, Quote } from "lucide-react";
+import ProductCTA from "@/components/ProductCTA";
+import CountUp from "@/components/home/CountUp";
+import Shot from "@/components/products/Shot";
+import { caseShotFor } from "@/components/products/shots";
+import HeroStage from "@/components/ui/HeroStage";
+import { Container, Section } from "@/components/ui/Section";
+import { Heading } from "@/components/ui/Typography";
+import type { CaseStudyDocument, CtaFields } from "@/lib/cms/types";
 
-import Link from 'next/link'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { caseStudyData } from '@/data/caseStudies'
+const delay = (ms: number) => ({ "--enter-delay": `${ms}ms` }) as CSSProperties;
 
-export default function CaseStudyDetail({ id }: { id: string }) {
-  useScrollReveal()
-  const cs = caseStudyData[id]
-
-  if (!cs) return null
+export default function CaseStudyDetail({ data, cta }: { data: CaseStudyDocument; cta: CtaFields }) {
+  const cs = data;
+  const meta = [
+    { icon: Building2, label: "Industry", value: cs.industry },
+    { icon: MapPin, label: "Location", value: cs.location },
+    { icon: CalendarDays, label: "Launched", value: cs.date },
+  ].filter((m) => m.value);
+  const quoteWords = cs.quoteText ? cs.quoteText.split(" ") : [];
 
   return (
     <>
-      {/* ── Back link ──────────────────────────────────────────────────────── */}
-      <div className="max-w-4xl mx-auto px-6 pt-28 pb-4">
-        <Link
-          href="/case-studies"
-          className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-slate-500 hover:text-[#1D4ED8] transition-colors group"
-        >
-          <svg
-            className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
-          All Case Studies
-        </Link>
-      </div>
+      <section aria-labelledby="case-title" className="relative overflow-hidden bg-white">
+        <Container className="pb-12 pt-10 sm:pb-16 sm:pt-14 lg:pt-16">
+          <nav aria-label="Breadcrumb" className="enter">
+            <ol className="flex items-center gap-1.5 text-sm text-muted">
+              <li>
+                <Link href="/case-studies" className="transition-colors duration-(--dur-fast) hover:text-ink">
+                  Case studies
+                </Link>
+              </li>
+              <li aria-hidden>
+                <ChevronRight className="size-3.5" strokeWidth={1.75} />
+              </li>
+              <li aria-current="page" className="font-medium text-ink">
+                {cs.client}
+              </li>
+            </ol>
+          </nav>
 
-      {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-6 pt-6 pb-14">
-        {/* Industry tag */}
-        <div className="fade-up-1 flex items-center gap-2 mb-5">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-[11.5px] font-semibold text-[#1D4ED8]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8]"/>
-            {cs.industry}
-          </span>
-        </div>
+          <Heading level={1} size="1" id="case-title" className="enter mt-6 max-w-[22ch]" style={delay(80)}>
+            {cs.headline}
+          </Heading>
+          <p className="enter mt-5 max-w-[56ch] text-lg text-muted sm:text-xl" style={delay(220)}>
+            {cs.subhead}
+          </p>
 
-        {/* Headline */}
-        <h1 className="fade-up-2 font-display font-black text-[30px] sm:text-[38px] xl:text-[50px] leading-[1.06] tracking-[-0.02em] text-slate-900 mb-5 max-w-3xl">
-          {cs.headline}
-        </h1>
-
-        {/* Subhead */}
-        <p className="fade-up-3 text-[16.5px] text-slate-500 leading-relaxed max-w-2xl mb-7">
-          {cs.subhead}
-        </p>
-
-        {/* Meta line */}
-        <div className="fade-up-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-slate-400 font-medium border-t border-[#E5E7EB] pt-6">
-          <span className="flex items-center gap-1.5">
-            <svg className="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-            {cs.industry}
-          </span>
-          <span className="w-1 h-1 rounded-full bg-slate-200"/>
-          <span className="flex items-center gap-1.5">
-            <svg className="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            {cs.location}
-          </span>
-          <span className="w-1 h-1 rounded-full bg-slate-200"/>
-          <span className="flex items-center gap-1.5">
-            <svg className="w-3.5 h-3.5 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-            {cs.date}
-          </span>
-        </div>
-      </section>
-
-      {/* ── Stat bar ───────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-br from-[#1e3a8a] to-[#1D4ED8] py-14 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id={`sdots-${cs.id}`} width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="white"/></pattern></defs>
-            <rect width="100%" height="100%" fill={`url(#sdots-${cs.id})`}/>
-          </svg>
-        </div>
-        <div className="relative max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {cs.stats.map((s, i) => (
-              <div key={i} className="text-center reveal">
-                <div className="font-display font-black text-[31px] sm:text-[40px] xl:text-[52px] text-white leading-none mb-2">
-                  {s.number}
+          {meta.length > 0 && (
+            <dl className="enter mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm" style={delay(340)}>
+              {meta.map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex items-center gap-2">
+                  <Icon aria-hidden className="size-4 text-subtle" strokeWidth={1.75} />
+                  <dt className="sr-only">{label}</dt>
+                  <dd className="text-muted">{value}</dd>
                 </div>
-                <div className="text-[13px] text-white/65 leading-snug">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </dl>
+          )}
+        </Container>
+
+        {/* What the client works in every day: the system we built */}
+        <HeroStage delayMs={440}>
+          <Shot shot={caseShotFor(cs.slug, cs.client)} priority />
+        </HeroStage>
       </section>
 
-      {/* ── Narrative body ─────────────────────────────────────────────────── */}
-      <section className="max-w-3xl mx-auto px-6 py-20">
-        <div className="space-y-14">
-          {cs.sections.map((s, i) => (
-            <div key={i} className="reveal">
-              <h2 className="font-display font-bold text-[22px] text-slate-900 mb-4 leading-snug">
-                {s.heading}
-              </h2>
-              <p className="text-[16px] text-slate-500 leading-relaxed">
-                {s.body}
-              </p>
+      {cs.stats.length > 0 && (
+        <section aria-label="Results" className="border-b border-line bg-white">
+          <Container>
+            {/* [TBC] Case-study figures are unverified (see TODO.md) */}
+            <dl className="grid grid-cols-2 lg:grid-cols-4">
+              {cs.stats.map((s, i) => (
+                <div
+                  key={s.id}
+                  className={[
+                    "py-8 sm:py-10",
+                    i % 2 === 1 ? "border-l border-line pl-4 sm:pl-8" : "pr-4 sm:pr-8",
+                    i > 1 ? "border-t border-line lg:border-t-0" : "",
+                    i === 2 ? "lg:border-l lg:pl-8" : "",
+                  ].join(" ")}
+                >
+                  <dt className="sr-only">{s.label}</dt>
+                  {/* Stat highlight: a permitted use of the brand gradient */}
+                  <dd className="whitespace-nowrap bg-gradient-brand bg-clip-text text-3xl font-semibold text-transparent sm:text-5xl">
+                    <CountUp value={s.number} />
+                  </dd>
+                  <dd aria-hidden className="mt-2 text-sm text-muted">
+                    {s.label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Container>
+        </section>
+      )}
+
+      {cs.sections.length > 0 && (
+        <Section aria-label={`The ${cs.client} story`}>
+          {/* A reading rail down the left that fills as the story scrolls past */}
+          <div className="story relative pl-6 sm:pl-10">
+            <div aria-hidden className="absolute inset-y-0 left-0 w-px bg-line">
+              <div className="story-fill absolute inset-0 origin-top bg-brand" />
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Pull-quote ─────────────────────────────────────────────────────── */}
-      <section className="bg-[#F5F8FF] border-y border-[#E5E7EB] py-16">
-        <div className="max-w-3xl mx-auto px-6 reveal">
-          <svg className="w-10 h-10 text-[#1D4ED8] opacity-30 mb-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-          </svg>
-          <blockquote className="font-display font-medium text-[22px] xl:text-[26px] text-slate-800 leading-snug italic mb-8">
-            &ldquo;{cs.quote.text}&rdquo;
-          </blockquote>
-          <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${cs.avatarColor} flex items-center justify-center shrink-0`}>
-              <span className="font-display font-black text-white text-[16px] leading-none">{cs.avatarInitials}</span>
-            </div>
-            <div>
-              <div className="font-semibold text-[14px] text-slate-900">{cs.quote.name}</div>
-              <div className="text-[12.5px] text-slate-400 mt-0.5">{cs.quote.title}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Product screenshot ─────────────────────────────────────────────── */}
-      <section className="max-w-5xl mx-auto px-6 py-20 reveal">
-        <div className="text-center mb-10">
-          <span className="text-[11.5px] font-bold uppercase tracking-[0.1em] text-slate-400">The Platform</span>
-          <h2 className="font-display font-bold text-[26px] text-slate-900 mt-2">
-            What {cs.client} sees every morning
-          </h2>
-        </div>
-        {cs.screen}
-      </section>
-
-      {/* ── Client photo / avatar card ─────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-6 pb-20">
-        <div className="reveal flex items-center gap-6 bg-white rounded-[20px] border border-[#E5E7EB] p-6 shadow-sm hover:shadow-md transition-shadow">
-          <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${cs.avatarColor} flex items-center justify-center shrink-0 shadow-lg`}>
-            <span className="font-display font-black text-white text-[28px] leading-none">{cs.avatarInitials}</span>
-          </div>
-          <div>
-            <div className="font-display font-bold text-[17px] text-slate-900">{cs.quote.name}</div>
-            <div className="text-[13px] text-slate-400 mt-1">{cs.photoCaption}</div>
-            <div className="mt-3 flex gap-3">
-              {['linkedin.com', 'twitter.com'].map((sn) => (
-                <a key={sn} href="#" className="text-[11px] font-semibold text-slate-400 hover:text-[#1D4ED8] transition-colors">
-                  {sn.split('.')[0].charAt(0).toUpperCase() + sn.split('.')[0].slice(1)} ↗
-                </a>
+            <div className="space-y-14 sm:space-y-20">
+              {cs.sections.map((s) => (
+                <article key={s.id} className="scroll-rise grid gap-4 lg:grid-cols-12 lg:gap-12">
+                  <h2 className="text-2xl font-semibold text-ink lg:sticky lg:top-28 lg:col-span-5 lg:self-start">
+                    {s.heading}
+                  </h2>
+                  <p className="max-w-[65ch] text-lg text-muted lg:col-span-7">{s.body}</p>
+                </article>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </Section>
+      )}
 
-      {/* ── CTA band ───────────────────────────────────────────────────────── */}
-      <section className="relative bg-gradient-to-br from-[#1e3a8a] to-[#1D4ED8] py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id={`ctadots-${cs.id}`} width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="white"/></pattern></defs>
-            <rect width="100%" height="100%" fill={`url(#ctadots-${cs.id})`}/>
-          </svg>
-        </div>
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="font-display font-black text-[36px] xl:text-[46px] leading-[1.08] tracking-[-0.02em] text-white mb-4">
-            Want results like this?
-          </h2>
-          <p className="text-[16px] text-white/70 mb-10 max-w-xl mx-auto">
-            Tell us what you&apos;re running on today. A 20-minute call is all it takes to know whether we can help.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1D4ED8] font-bold text-[15px] rounded-full hover:bg-blue-50 hover:shadow-xl hover:-translate-y-0.5 transition-all"
-            >
-              Book a Consultation
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </Link>
-            <Link
-              href="/case-studies"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/10 border border-white/25 text-white font-semibold text-[15px] rounded-full hover:bg-white/20 transition-all"
-            >
-              See all case studies
-            </Link>
-          </div>
-        </div>
-      </section>
+      {cs.quoteText && (
+        <Section tone="surface" aria-label={`What ${cs.client} says`}>
+          {/* The quote fills in word by word as it scrolls through the screen, like the homepage statement */}
+          <figure className="statement max-w-[52rem]">
+            <Quote aria-hidden className="size-8 text-brand" strokeWidth={1.5} />
+            {/* [TBC] Named testimonial is unverified (see TODO.md) */}
+            <blockquote className="mt-6 text-2xl font-medium text-ink sm:text-3xl lg:text-[2.25rem] lg:leading-[1.25]">
+              <p>
+                {quoteWords.map((word, i) => (
+                  <span key={i} className="statement-word" style={{ "--i": i, "--n": quoteWords.length } as CSSProperties}>
+                    {/* Quote marks travel with the first and last words so they fill together */}
+                    {i === 0 ? "\u201C" : ""}
+                    {word}
+                    {i === quoteWords.length - 1 ? "\u201D" : " "}
+                  </span>
+                ))}
+              </p>
+            </blockquote>
+            <figcaption className="mt-8 flex items-center gap-4">
+              {cs.avatarInitials && (
+                <span
+                  aria-hidden
+                  className="flex size-12 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-semibold text-white"
+                >
+                  {cs.avatarInitials}
+                </span>
+              )}
+              <span>
+                <span className="block font-medium text-ink">{cs.quoteName}</span>
+                {cs.quoteTitle && <span className="mt-0.5 block text-sm text-muted">{cs.quoteTitle}</span>}
+              </span>
+            </figcaption>
+          </figure>
+        </Section>
+      )}
+
+      <ProductCTA headline={cta.headline} sub={cta.sub} buttonLabel={cta.buttonLabel} href={cta.href} />
     </>
-  )
+  );
 }

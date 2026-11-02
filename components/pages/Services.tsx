@@ -1,174 +1,163 @@
-'use client';
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import ProductCTA from "@/components/ProductCTA";
+import CountUp from "@/components/home/CountUp";
+import ProductIcon from "@/components/icons/ProductIcon";
+import Shot from "@/components/products/Shot";
+import { heroShotFor } from "@/components/products/shots";
+import { Container, Section } from "@/components/ui/Section";
+import { Heading } from "@/components/ui/Typography";
+import type { ServiceListing, ServiceSummary } from "@/lib/cms/types";
 
-import { companyStats } from '@/data/company'
-import Link from 'next/link'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import ProductCTA from '@/components/ProductCTA'
-import { DocLinkIcon, type DocLinkIconName } from '@/components/icons/DocLinkIcons'
+const delay = (ms: number) => ({ "--enter-delay": `${ms}ms` }) as CSSProperties;
 
-// ─── Process stat strip ───────────────────────────────────────────────────────
-function ProcessStrip() {
-  const stats = [
-    { value: '2–6 wks', label: 'MVP delivery window' },
-    companyStats.projects,
-    companyStats.years,
-    companyStats.uptime,
-  ]
+/** CMS call-to-action labels may still carry a trailing arrow from the old design */
+const clean = (label: string) => label.replace(/\s*[→>]+\s*$/, "");
+
+/** Stretched link: makes the whole card clickable with a single focus stop */
+const stretched =
+  "after:absolute after:inset-0 after:z-10 after:rounded-surface focus-visible:outline-none " +
+  "focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-brand";
+
+function CardArrow({ label }: { label: string }) {
   return (
-    <section className="py-16 bg-[#FAFBFC] border-y border-[#E5E7EB]">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center reveal">
-              <div className="font-display font-black text-[31px] sm:text-[40px] xl:text-[48px] gradient-text leading-none mb-1">{s.value}</div>
-              <div className="text-[13px] text-slate-500 font-medium">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+    <span className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-brand">
+      {clean(label)}
+      <ChevronRight
+        aria-hidden
+        className="size-4 transition-transform duration-(--dur-base) ease-standard group-hover:translate-x-1"
+        strokeWidth={1.75}
+      />
+    </span>
+  );
 }
 
-// ─── Service cards ────────────────────────────────────────────────────────────
-const serviceCards: {
-  icon: DocLinkIconName
-  name: string
-  tagline: string | null
-  desc: string
-  link: string
-  cta: string
-  flagship: boolean
-}[] = [
-  {
-    icon: 'software',
-    name: 'Software Development',
-    tagline: 'Flagship Service',
-    desc: 'Tailored business systems built from the ground up — no templates, no compromises.',
-    link: '/services/software',
-    cta: 'Explore',
-    flagship: true,
-  },
-  {
-    icon: 'web',
-    name: 'Web Development',
-    tagline: null,
-    desc: 'Modern, SEO-optimized websites that convert visitors into customers.',
-    link: '/services/web',
-    cta: 'Explore',
-    flagship: false,
-  },
-  {
-    icon: 'mobile',
-    name: 'Mobile App Development',
-    tagline: null,
-    desc: 'Native and cross-platform apps that put your business in your customers\' pocket.',
-    link: '/services/mobile',
-    cta: 'Explore',
-    flagship: false,
-  },
-]
+export default function Services({ listing, services }: { listing: ServiceListing; services: ServiceSummary[] }) {
+  const flagship = services.find((service) => service.flagship) ?? null;
+  const rest = services.filter((service) => service.id !== flagship?.id);
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default function Services() {
-  useScrollReveal()
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-28 pb-20 bg-white overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="blob absolute -top-28 right-0 w-[480px] h-[480px] opacity-[0.10]"
-            style={{ background: 'radial-gradient(circle,#1D4ED8 0%,transparent 70%)' }}
-          />
-          <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="svgrid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="#1D4ED8"/></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#svgrid)"/>
-          </svg>
-        </div>
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <div className="fade-up-1 inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] animate-pulse"/>
-            <span className="text-[11.5px] font-semibold text-[#1D4ED8] tracking-wide">Our Services</span>
-          </div>
-          <h1 className="fade-up-2 font-display font-black text-[37px] sm:text-[48px] xl:text-[62px] leading-[1.05] tracking-[-0.02em] text-slate-900 mb-5">
-            Custom Software,{' '}
-            <span className="gradient-text">Built Around Your Business</span>
-          </h1>
-          <p className="fade-up-3 text-[16px] text-slate-500 max-w-xl mx-auto">
-            Three disciplines. One team. We build the software your business actually needs — not what fits a pre-packaged template.
+      <section aria-labelledby="services-title" className="bg-white">
+        <Container className="pb-12 pt-10 sm:pb-16 sm:pt-14 lg:pt-16">
+          {listing.eyebrow && <p className="enter text-sm font-medium text-brand">{listing.eyebrow}</p>}
+          <Heading level={1} size="1" id="services-title" className="enter mt-4 max-w-[20ch]" style={delay(80)}>
+            {listing.headline}
+          </Heading>
+          <p className="enter mt-5 max-w-[56ch] text-lg text-muted sm:text-xl" style={delay(200)}>
+            {listing.subhead}
           </p>
-        </div>
+        </Container>
       </section>
 
-      {/* Service cards */}
-      <section className="py-20 bg-[#FAFBFC]">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="reveal mb-6">
-            <Link
-              href={serviceCards[0].link}
-              className="group flex flex-col lg:flex-row items-start lg:items-center gap-8 p-10 xl:p-12 rounded-[20px] border-2 border-[#1D4ED8]/20 bg-gradient-to-br from-[#F5F8FF] to-white hover:border-[#1D4ED8]/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/60 transition-all"
-            >
-              <div className="shrink-0">
-                <div className="w-16 h-16 rounded-2xl gradient-brand flex items-center justify-center text-white shadow-lg shadow-blue-200">
-                  <DocLinkIcon name={serviceCards[0].icon} size={28} />
+      <Section space="none" className="pb-section" aria-label="Service list">
+        <div className="grid gap-4 md:gap-6">
+          {/* Flagship: the main engagement, as a wide panel above the rest */}
+          {flagship && (
+            <article className="scroll-rise spotlight group relative grid overflow-hidden rounded-surface border border-line bg-surface transition-colors duration-(--dur-base) hover:border-line-strong lg:grid-cols-12">
+              <div className="flex flex-col justify-center p-6 sm:p-10 lg:col-span-5 lg:p-12">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="flex size-12 items-center justify-center rounded-control bg-brand text-white shadow-hairline transition-transform duration-(--dur-slow) ease-standard group-hover:-rotate-6">
+                    <ProductIcon name={flagship.icon} className="size-6" />
+                  </span>
+                  {/* The CMS tagline may already say "Flagship"; don't repeat it */}
+                  {!/flagship/i.test(flagship.tagline) && (
+                    <span className="rounded-full bg-brand-soft px-2.5 py-1 text-xs font-medium text-brand-ink">
+                      Flagship
+                    </span>
+                  )}
+                </div>
+                <h2 className="mt-6 text-3xl font-semibold text-ink sm:text-4xl">
+                  <Link href={`/services/${flagship.slug}`} className={stretched}>
+                    {flagship.name}
+                  </Link>
+                </h2>
+                {flagship.tagline && <p className="mt-2 text-sm font-medium text-brand">{flagship.tagline}</p>}
+                <p className="mt-3 max-w-[48ch] text-base text-muted sm:text-lg">{flagship.listingDesc}</p>
+                <CardArrow label={flagship.listingCta} />
+              </div>
+              <div className="px-6 pb-6 sm:px-10 sm:pb-10 lg:col-span-7 lg:py-12 lg:pl-0 lg:pr-12">
+                <div className="shot-lift">
+                  <Shot shot={heroShotFor(flagship.slug, flagship.name)} priority />
                 </div>
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <h2 className="font-display font-black text-[26px] xl:text-[30px] text-slate-900 tracking-tight">{serviceCards[0].name}</h2>
-                  <span className="px-2.5 py-0.5 text-[10px] font-bold bg-[#1D4ED8] text-white rounded-full">FLAGSHIP</span>
-                </div>
-                <p className="text-[16px] text-slate-500 leading-relaxed max-w-[560px]">{serviceCards[0].desc}</p>
-              </div>
-              <div className="shrink-0 inline-flex items-center gap-2 px-7 py-3.5 gradient-brand text-white font-semibold rounded-full text-[14.5px] transition-all group-hover:shadow-xl group-hover:shadow-blue-300/25">
-                Explore →
-              </div>
-            </Link>
-          </div>
+            </article>
+          )}
 
-          <div className="grid md:grid-cols-3 gap-5">
-            {serviceCards.slice(1).map((s) => (
-              <div key={s.name} className="reveal">
-                <Link
-                  href={s.link}
-                  className="group flex flex-col p-8 rounded-[18px] border border-[#E5E7EB] bg-white hover:border-blue-200 hover:-translate-y-1 hover:shadow-lg transition-all h-full"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-[#F5F8FF] border border-blue-50 flex items-center justify-center text-[#1D4ED8] mb-5">
-                    <DocLinkIcon name={s.icon} size={22} />
-                  </div>
-                  <h3 className="font-display font-bold text-[19px] text-slate-900 mb-2">{s.name}</h3>
-                  <p className="text-[14px] text-slate-500 leading-relaxed flex-1">{s.desc}</p>
-                  <div className="mt-5 flex items-center gap-1.5 text-[13px] font-semibold text-[#1D4ED8] group-hover:gap-2.5 transition-all">
-                    {s.cta} →
-                  </div>
-                </Link>
-              </div>
+          <ul className="grid gap-4 md:grid-cols-3 md:gap-6">
+            {rest.map((s, i) => (
+              <li key={s.slug} className="scroll-rise" style={{ "--rise-i": i } as CSSProperties}>
+                <article className="spotlight group relative flex h-full flex-col rounded-surface border border-line bg-white p-6 transition-colors duration-(--dur-base) hover:border-line-strong sm:p-8">
+                  <span className="flex size-11 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white">
+                    <ProductIcon name={s.icon} className="size-5" />
+                  </span>
+                  <h2 className="mt-6 text-xl font-semibold text-ink">
+                    <Link href={`/services/${s.slug}`} className={stretched}>
+                      {s.name}
+                    </Link>
+                  </h2>
+                  <p className="mt-2 flex-1 text-base text-muted">{s.listingDesc}</p>
+                  <CardArrow label={s.listingCta} />
+                </article>
+              </li>
             ))}
 
-            <div className="reveal">
-              <div className="flex flex-col p-8 rounded-[18px] border border-[#E5E7EB] bg-[#FAFBFC] opacity-60 h-full cursor-default select-none">
-                <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 mb-5">
-                  <DocLinkIcon name="megaphone" size={22} />
+            {/* Not a link: a service that isn't offered yet */}
+            <li className="scroll-rise" style={{ "--rise-i": rest.length } as CSSProperties}>
+              <div className="flex h-full flex-col rounded-surface border border-dashed border-line-strong p-6 sm:p-8">
+                <span className="flex size-11 items-center justify-center rounded-control bg-surface text-subtle">
+                  <ProductIcon name="megaphone" className="size-5" />
+                </span>
+                <div className="mt-6 flex flex-wrap items-center gap-2">
+                  <h2 className="text-xl font-semibold text-muted">Marketing</h2>
+                  <span className="rounded-full bg-surface-2 px-2 py-0.5 text-xs font-medium text-muted">
+                    Coming soon
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 mb-2">
-                  <h3 className="font-display font-bold text-[19px] text-slate-400">Marketing</h3>
-                  <span className="px-2 py-0.5 text-[10px] font-bold bg-slate-200 text-slate-500 rounded-full">COMING SOON</span>
-                </div>
-                <p className="text-[13px] text-slate-400 leading-relaxed">We&apos;re expanding into digital marketing services. Watch this space.</p>
+                <p className="mt-2 text-base text-muted">We&apos;re expanding into digital marketing services.</p>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
-      </section>
+      </Section>
 
-      <ProcessStrip />
+      {listing.stats.length > 0 && (
+        <section aria-label="Delivery at a glance" className="border-y border-line bg-white">
+          <Container>
+            {/* [TBC] Figures are unverified (see TODO.md) */}
+            <dl className="grid grid-cols-2 lg:grid-cols-4">
+              {listing.stats.map((s, i) => (
+                <div
+                  key={s.id}
+                  className={[
+                    "py-8 sm:py-10",
+                    i % 2 === 1 ? "border-l border-line pl-4 sm:pl-8" : "pr-4 sm:pr-8",
+                    i > 1 ? "border-t border-line lg:border-t-0" : "",
+                    i === 2 ? "lg:border-l lg:pl-8" : "",
+                  ].join(" ")}
+                >
+                  <dt className="sr-only">{s.label}</dt>
+                  {/* Stat highlight: a permitted use of the brand gradient */}
+                  <dd className="bg-gradient-brand bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+                    <CountUp value={s.value} />
+                  </dd>
+                  <dd aria-hidden className="mt-2 text-sm text-muted">
+                    {s.label}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Container>
+        </section>
+      )}
 
       <ProductCTA
-        headline="Tell us what you need to build."
-        sub="We'll come back with a scope, timeline, and price."
-        buttonLabel="Get a Quote"
+        headline={listing.cta.headline}
+        sub={listing.cta.sub}
+        buttonLabel={listing.cta.buttonLabel}
+        href={listing.cta.href}
       />
     </>
-  )
+  );
 }

@@ -1,5 +1,5 @@
 // [TBC] Client names are unverified: confirm permission to name each one (see TODO.md).
-// `caseStudy` must match a key in data/caseStudies.tsx.
+// `caseStudy` should match a published case study slug.
 
 export const featuredClients = [
   { name: "Emaar", caseStudy: "emaar" },

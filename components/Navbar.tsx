@@ -8,6 +8,7 @@ import Logo from "@/components/Logo";
 import Button from "@/components/ui/Button";
 import { Container } from "@/components/ui/Section";
 import { cn } from "@/components/ui/cn";
+import { getLenis } from "@/lib/smoothScroll";
 import { companyLinks, primaryCta, productLinks, serviceLinks, type NavItem } from "@/data/navigation";
 
 type MenuKey = "products" | "services";
@@ -60,12 +61,33 @@ export default function Navbar() {
     setMobileOpen(false);
   }
 
+  // Hide on the way down, return on the way up (ramp.com): more page, same reach
+  const [tucked, setTucked] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
-    onScroll();
+    let last = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const dy = y - last;
+      setScrolled(y > 4);
+      if (y < 96) setTucked(false);
+      else if (dy > 6) setTucked(true);
+      else if (dy < -6) setTucked(false);
+      if (Math.abs(dy) > 6 || y < 96) last = y;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
   }, []);
+  const [focusInside, setFocusInside] = useState(false);
+  const hidden = tucked && !openMenu && !mobileOpen && !focusInside;
 
   // Escape and outside click close the desktop menus
   useEffect(() => {
@@ -93,10 +115,12 @@ export default function Navbar() {
     if (!mobileOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    getLenis()?.stop();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileOpen(false);
     document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
+      getLenis()?.start();
       document.removeEventListener("keydown", onKey);
     };
   }, [mobileOpen]);
@@ -117,9 +141,15 @@ export default function Navbar() {
   return (
     <>
     <header
+      onFocusCapture={() => setFocusInside(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusInside(false);
+      }}
       className={cn(
-        "sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md transition-colors duration-(--dur-base)",
+        "sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md",
+        "transition-[transform,border-color] duration-(--dur-slow) ease-standard",
         scrolled || mobileOpen ? "border-line" : "border-transparent",
+        hidden && "-translate-y-full",
       )}
     >
       <Container>
@@ -224,6 +254,7 @@ export default function Navbar() {
           Sits outside <header> because the header's backdrop blur would trap position: fixed. */}
       <div
         id="mobile-menu"
+        data-lenis-prevent
         hidden={!mobileOpen}
         className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-white lg:hidden"
       >

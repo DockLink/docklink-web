@@ -1,0 +1,311 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @db.Uuid
+  email     String   @unique
+  role      String   @default("admin")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("users")
+}
+
+model ProductListing {
+  id             String   @id @default("default")
+  seoTitle       String   @map("seo_title")
+  seoDescription String   @map("seo_description")
+  eyebrow        String
+  headline       String
+  subhead        String
+  ctaHeadline    String   @map("cta_headline")
+  ctaSub         String   @map("cta_sub")
+  ctaButtonLabel String   @default("Book a Demo") @map("cta_button_label")
+  ctaHref        String   @default("/contact") @map("cta_href")
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@map("product_listing")
+}
+
+model Product {
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug               String   @unique
+  name               String
+  icon               String
+  navBenefit         String   @default("") @map("nav_benefit")
+  listingDesc        String   @map("listing_desc")
+  listingCta         String   @map("listing_cta")
+  listingBg          String   @default("") @map("listing_bg")
+  seoTitle           String   @map("seo_title")
+  seoDescription     String   @map("seo_description")
+  eyebrow            String
+  headline           String
+  subhead            String
+  primaryCtaLabel    String   @default("Book a Demo") @map("primary_cta_label")
+  primaryCtaHref     String   @default("/contact") @map("primary_cta_href")
+  trustVariant       String   @default("default") @map("trust_variant")
+  relatedCaseStudyId String?  @map("related_case_study_id")
+  ctaHeadline        String   @map("cta_headline")
+  ctaSub             String   @map("cta_sub")
+  ctaButtonLabel     String   @default("Book a Demo") @map("cta_button_label")
+  ctaHref            String   @default("/contact") @map("cta_href")
+  published          Boolean  @default(true)
+  sortOrder          Int      @default(0) @map("sort_order")
+  updatedAt          DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  moduleGroups ProductModuleGroup[]
+  features     ProductFeature[]
+
+  @@index([sortOrder], map: "products_sort_order_idx")
+  @@map("products")
+}
+
+model ProductModuleGroup {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String @map("product_id") @db.Uuid
+  label     String
+  title     String
+  intro     String
+  columns   Int    @default(2)
+  sortOrder Int    @default(0) @map("sort_order")
+
+  product Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  modules ProductModule[]
+
+  @@index([productId], map: "product_module_groups_product_id_idx")
+  @@map("product_module_groups")
+}
+
+model ProductModule {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  groupId   String @map("group_id") @db.Uuid
+  slug      String
+  icon      String
+  name      String
+  benefit   String
+  sortOrder Int    @default(0) @map("sort_order")
+
+  group  ProductModuleGroup    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  detail ProductModuleDetail?
+
+  @@index([groupId], map: "product_modules_group_id_idx")
+  @@map("product_modules")
+}
+
+model ProductModuleDetail {
+  id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  moduleId String @unique @map("module_id") @db.Uuid
+  title    String
+  sub      String
+
+  module ProductModule              @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  blocks ProductModuleDetailBlock[]
+
+  @@index([moduleId], map: "product_module_details_module_id_idx")
+  @@map("product_module_details")
+}
+
+model ProductModuleDetailBlock {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  detailId  String @map("detail_id") @db.Uuid
+  caption   String
+  side      String
+  visualKey String @default("") @map("visual_key")
+  sortOrder Int    @default(0) @map("sort_order")
+
+  detail ProductModuleDetail @relation(fields: [detailId], references: [id], onDelete: Cascade)
+
+  @@index([detailId], map: "product_module_detail_blocks_detail_id_idx")
+  @@map("product_module_detail_blocks")
+}
+
+model ProductFeature {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  productId String @map("product_id") @db.Uuid
+  label     String
+  title     String
+  body      String
+  side      String
+  visualKey String @default("") @map("visual_key")
+  sortOrder Int    @default(0) @map("sort_order")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId], map: "product_features_product_id_idx")
+  @@map("product_features")
+}
+
+model ServiceListing {
+  id             String   @id @default("default")
+  seoTitle       String   @map("seo_title")
+  seoDescription String   @map("seo_description")
+  eyebrow        String
+  headline       String
+  subhead        String
+  ctaHeadline    String   @map("cta_headline")
+  ctaSub         String   @map("cta_sub")
+  ctaButtonLabel String   @default("Get a Quote") @map("cta_button_label")
+  ctaHref        String   @default("/contact") @map("cta_href")
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  stats ServiceListingStat[]
+
+  @@map("service_listing")
+}
+
+model ServiceListingStat {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  listingId String @default("default") @map("listing_id")
+  value     String
+  label     String
+  sortOrder Int    @default(0) @map("sort_order")
+
+  listing ServiceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId], map: "service_listing_stats_listing_id_idx")
+  @@map("service_listing_stats")
+}
+
+model Service {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug            String   @unique
+  name            String
+  icon            String
+  flagship        Boolean  @default(false)
+  tagline         String   @default("")
+  listingDesc     String   @map("listing_desc")
+  listingCta      String   @map("listing_cta")
+  seoTitle        String   @map("seo_title")
+  seoDescription  String   @map("seo_description")
+  eyebrow         String
+  headline        String
+  subhead         String
+  primaryCtaLabel String   @default("Get a Quote") @map("primary_cta_label")
+  primaryCtaHref  String   @default("/contact") @map("primary_cta_href")
+  processEyebrow  String   @map("process_eyebrow")
+  processHeadline String   @map("process_headline")
+  processSub      String   @map("process_sub")
+  ctaHeadline     String   @map("cta_headline")
+  ctaSub          String   @map("cta_sub")
+  ctaButtonLabel  String   @default("Get a Quote") @map("cta_button_label")
+  ctaHref         String   @default("/contact") @map("cta_href")
+  published       Boolean  @default(true)
+  sortOrder       Int      @default(0) @map("sort_order")
+  updatedAt       DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  features     ServiceFeature[]
+  processSteps ServiceProcessStep[]
+
+  @@index([sortOrder], map: "services_sort_order_idx")
+  @@map("services")
+}
+
+model ServiceFeature {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceId String @map("service_id") @db.Uuid
+  label     String
+  title     String
+  body      String
+  side      String
+  visualKey String @default("") @map("visual_key")
+  sortOrder Int    @default(0) @map("sort_order")
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId], map: "service_features_service_id_idx")
+  @@map("service_features")
+}
+
+model ServiceProcessStep {
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceId String @map("service_id") @db.Uuid
+  title     String
+  sub       String
+  sortOrder Int    @default(0) @map("sort_order")
+
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId], map: "service_process_steps_service_id_idx")
+  @@map("service_process_steps")
+}
+
+model CaseStudyListing {
+  id             String   @id @default("default")
+  seoTitle       String   @map("seo_title")
+  seoDescription String   @map("seo_description")
+  eyebrow        String
+  headline       String
+  subhead        String
+  ctaHeadline    String   @map("cta_headline")
+  ctaSub         String   @map("cta_sub")
+  ctaButtonLabel String   @default("Book a Consultation") @map("cta_button_label")
+  ctaHref        String   @default("/contact") @map("cta_href")
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  @@map("case_study_listing")
+}
+
+model CaseStudy {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  slug           String   @unique
+  client         String
+  industry       String
+  location       String
+  date           String
+  gradient       String
+  headline       String
+  subhead        String
+  seoTitle       String   @map("seo_title")
+  seoDescription String   @map("seo_description")
+  quoteText      String   @map("quote_text")
+  quoteName      String   @map("quote_name")
+  quoteTitle     String   @map("quote_title")
+  visualKey      String   @default("") @map("visual_key")
+  avatarInitials String   @map("avatar_initials")
+  avatarColor    String   @map("avatar_color")
+  photoCaption   String   @map("photo_caption")
+  published      Boolean  @default(true)
+  sortOrder      Int      @default(0) @map("sort_order")
+  updatedAt      DateTime @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  stats    CaseStudyStat[]
+  sections CaseStudySection[]
+
+  @@index([sortOrder], map: "case_studies_sort_order_idx")
+  @@map("case_studies")
+}
+
+model CaseStudyStat {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseStudyId String @map("case_study_id") @db.Uuid
+  number      String
+  label       String
+  sortOrder   Int    @default(0) @map("sort_order")
+
+  caseStudy CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
+
+  @@index([caseStudyId], map: "case_study_stats_case_study_id_idx")
+  @@map("case_study_stats")
+}
+
+model CaseStudySection {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  caseStudyId String @map("case_study_id") @db.Uuid
+  heading     String
+  body        String
+  sortOrder   Int    @default(0) @map("sort_order")
+
+  caseStudy CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
+
+  @@index([caseStudyId], map: "case_study_sections_case_study_id_idx")
+  @@map("case_study_sections")
+}

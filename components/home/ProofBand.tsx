@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Typography";
 import { featuredClients } from "@/data/clients";
 import { companyStats } from "@/data/company";
+import CountUp from "./CountUp";
 
 // [TBC] Figures are unverified (see TODO.md). They come from data/company.ts only.
 const stats = [companyStats.projects, companyStats.clients, companyStats.countries];
@@ -44,7 +45,7 @@ export default function ProofBand() {
                 <dt className="sr-only">{s.label}</dt>
                 {/* Stat highlight: one of the three permitted uses of the brand gradient */}
                 <dd className="bg-gradient-brand bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
-                  {s.value}
+                  <CountUp value={s.value} />
                 </dd>
                 <dd aria-hidden className="mt-2 text-sm text-muted">
                   {s.label}

@@ -1,9 +1,15 @@
-import Link from "next/link";
+import Button from "@/components/ui/Button";
+import { Section } from "@/components/ui/Section";
+import { Heading, Text } from "@/components/ui/Typography";
 
+/**
+ * A page's closing call to action: the navy band used on the homepage
+ * (the brand gradient is reserved for hero, buttons and stats).
+ */
 export default function ProductCTA({
   headline = "Ready to see it in action?",
   sub = "A 20-minute demo is all it takes.",
-  buttonLabel = "Book a Demo",
+  buttonLabel = "Book a demo",
   href = "/contact",
 }: {
   headline?: string;
@@ -12,36 +18,32 @@ export default function ProductCTA({
   href?: string;
 }) {
   return (
-    <section className="py-24 gradient-brand relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.06]">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs><pattern id="pcta" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="white"/></pattern></defs>
-          <rect width="100%" height="100%" fill="url(#pcta)"/>
-        </svg>
-      </div>
-      <div className="relative max-w-2xl mx-auto px-6 text-center">
-        <h2 className="font-display font-black text-[30px] sm:text-[38px] xl:text-[46px] leading-[1.08] tracking-[-0.02em] text-white mb-3">
-          {headline}
-        </h2>
-        <p className="text-blue-100/75 text-[15px] mb-8">{sub}</p>
-        {href.startsWith("/") ? (
-          <Link
-            href={href}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1D4ED8] font-bold rounded-full text-[15px] transition-all hover:shadow-2xl hover:shadow-blue-900/30 hover:-translate-y-1 active:translate-y-0"
-          >
+    <Section tone="navy" aria-labelledby="page-cta-title" className="relative overflow-hidden">
+      {/* Faint grid, echoing the spreadsheets the product replaces */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.07] [mask-image:radial-gradient(70%_80%_at_80%_50%,black,transparent)]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
+          backgroundSize: "48px 32px",
+        }}
+      />
+      <div className="scroll-rise relative grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
+        <div className="lg:col-span-8">
+          <Heading level={2} size="1" id="page-cta-title" onNavy className="max-w-[20ch]">
+            {headline}
+          </Heading>
+          <Text variant="lead" onNavy className="mt-4">
+            {sub}
+          </Text>
+        </div>
+        <div className="lg:col-span-4 lg:justify-self-end">
+          <Button href={href} variant="inverse" size="lg">
             {buttonLabel}
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </Link>
-        ) : (
-          <a
-            href={href}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-[#1D4ED8] font-bold rounded-full text-[15px] transition-all hover:shadow-2xl hover:shadow-blue-900/30 hover:-translate-y-1 active:translate-y-0"
-          >
-            {buttonLabel}
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-        )}
+          </Button>
+        </div>
       </div>
-    </section>
+    </Section>
   );
 }

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/data/company";
-import { caseStudyData } from "@/data/caseStudies";
+import { getPublishedCaseStudySummaries } from "@/lib/cms/caseStudies";
 
 const routes = [
   { path: "", priority: 1 },
@@ -17,12 +17,13 @@ const routes = [
   { path: "/contact", priority: 0.7 },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
+  const studies = await getPublishedCaseStudySummaries();
   return [
     ...routes.map((r) => ({ url: `${SITE_URL}${r.path}`, lastModified, priority: r.priority })),
-    ...Object.keys(caseStudyData).map((id) => ({
-      url: `${SITE_URL}/case-studies/${id}`,
+    ...studies.map((study) => ({
+      url: `${SITE_URL}/case-studies/${study.slug}`,
       lastModified,
       priority: 0.7,
     })),

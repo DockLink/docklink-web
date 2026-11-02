@@ -100,9 +100,12 @@
   --dur-slow: 320ms;   /* accordions */
   --dur-enter: 760ms;  /* the one hero load moment */
   --gradient-brand: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 55%, #2563eb 100%);
-  /* Soft blue glow placed directly behind the hero product shot; fully transparent at its edges */
+  /* Hero stage behind the product shot: deep navy into DocLink blue, with a soft
+     light from above. This is the brand gradient's "hero background" use. */
   --gradient-hero:
-    radial-gradient(50% 50% at 50% 50%, rgb(29 78 216 / 0.18), rgb(29 78 216 / 0.06) 55%, transparent 100%);
+    radial-gradient(70% 55% at 50% 0%, rgb(255 255 255 / 0.14), transparent 70%),
+    radial-gradient(55% 60% at 90% 100%, rgb(59 130 246 / 0.35), transparent 70%),
+    linear-gradient(160deg, #0a1a3f 0%, #1e3a8a 45%, #1d4ed8 100%);
 }
 
 /* The brand gradient is allowed in exactly three places:
@@ -128,24 +131,6 @@
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* Headline: each line slides up from behind a mask.
-   The padding/negative margin keeps descenders (y, p) from being clipped. */
-@keyframes line-up {
-  from { transform: translateY(110%); }
-  to   { transform: none; }
-}
-.enter-line {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
-}
-.enter-line > span {
-  display: block;
-  animation: line-up var(--dur-enter) var(--ease-standard) both;
-  animation-delay: var(--enter-delay, 0ms);
-}
-
 /* Product shot: tilts up from a slight 3D angle and settles flat */
 @keyframes shot-settle {
   from { opacity: 0; transform: perspective(2400px) rotateX(16deg) translateY(56px) scale(0.96); }
@@ -158,7 +143,7 @@
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* Glow behind the shot fades in as it settles */
+/* Stage fades in behind the shot as it settles */
 @keyframes glow-in {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -168,10 +153,221 @@
   animation-delay: var(--enter-delay, 0ms);
 }
 
+/* ═══ Hero stage ═══════════════════════════════════════════════════════
+   A rounded navy-to-blue panel, inset to the content width, holding the
+   product shot. Its resting state (no motion / no support) is the inset panel
+   with a flat shot. Scroll motion below opens it to full width. */
+.hero-stage {
+  --stage-inset: max(12px, calc((100vw - var(--container-site)) / 2));
+  --stage-radius: 28px;
+}
+.hero-stage-bg {
+  background-image: var(--gradient-hero);
+  clip-path: inset(0 var(--stage-inset) round var(--stage-radius));
+}
+
+/* ═══ Hover: spotlight cards ═════════════════════════════════════════
+   A soft glow follows the cursor across the card, and the border lights up
+   near it (the Linear / Vercel card treatment). One document-level listener
+   (components/motion/SpotlightTracker.tsx) feeds --mx / --my, so cards stay
+   plain HTML. Mouse and trackpad only: touch screens never see it. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+@media (hover: hover) and (pointer: fine) {
+  .spotlight::before,
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--dur-slow) var(--ease-standard);
+  }
+  /* Glow inside the card, painted behind its content */
+  .spotlight::before {
+    z-index: -1;
+    background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 50%), rgb(29 78 216 / 0.07), transparent 60%);
+  }
+  /* 1px border highlight near the cursor */
+  .spotlight::after {
+    padding: 1px;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(29 78 216 / 0.55), transparent 70%);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  }
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+
+/* Screenshot inside a hoverable panel rises a little when the panel is hovered */
+.shot-lift {
+  transition: transform var(--dur-slow) var(--ease-standard);
+}
+@media (hover: hover) {
+  .group:hover .shot-lift,
+  .group:has(:focus-visible) .shot-lift {
+    transform: translateY(-6px);
+  }
+}
+
+/* Word-by-word statement: words are ink by default (the resting state) */
+.statement-word {
+  color: var(--color-ink);
+}
+
+/* ═══ Scroll motion (home) ═══════════════════════════════════════════
+   Pure CSS scroll-driven animations: no JavaScript, nothing runs while
+   the page is still. Content is fully visible by default — the effects
+   only switch on where the browser supports scroll timelines AND the
+   visitor hasn't asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* Blocks rise 16px and fade in as they enter the viewport.
+       --rise-i staggers siblings that enter together (cards in a row). */
+    @keyframes scroll-rise {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .scroll-rise {
+      animation: scroll-rise var(--ease-standard) both;
+      animation-timeline: view();
+      animation-range:
+        entry calc(var(--rise-i, 0) * 8%)
+        cover calc(18% + var(--rise-i, 0) * 4%);
+    }
+
+    /* Case-study rail: cards ease back as they slide to the rail's edges */
+    @keyframes rail-focus {
+      entry 0%   { opacity: 0.5; transform: scale(0.94); }
+      entry 100% { opacity: 1; transform: none; }
+      exit 0%    { opacity: 1; transform: none; }
+      exit 100%  { opacity: 0.5; transform: scale(0.94); }
+    }
+    .rail-card {
+      animation: rail-focus linear both;
+      animation-timeline: view(inline);
+    }
+
+    /* Hero → page transition (the one bold moment, after ramp.com's stage):
+       over the first 75% of a screen of scrolling, the stage widens to the full
+       viewport and loses its corners while the shot straightens and grows.
+       Scrubbed by scroll position, so it goes backwards when you scroll up. */
+    @keyframes stage-open {
+      to { clip-path: inset(0 0 round 0); }
+    }
+    .hero-stage-bg {
+      animation: stage-open linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 75vh;
+    }
+    @keyframes shot-flatten {
+      from { transform: perspective(2200px) rotateX(12deg) scale(0.92); }
+      to   { transform: none; }
+    }
+    .hero-shot-tilt {
+      transform-origin: 50% 0%;
+      animation: shot-flatten linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 75vh;
+    }
+
+    /* Product screenshots rise and settle as they scroll into view */
+    @keyframes shot-zoom {
+      from { opacity: 0.35; transform: translateY(40px) scale(0.96); }
+      to   { opacity: 1; transform: none; }
+    }
+    .scroll-zoom {
+      animation: shot-zoom var(--ease-standard) both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+
+    /* Process timeline: the connecting line fills as the steps scroll through the
+       screen, and each step's number lights up as the line reaches it
+       (after codemagic.global's "How it works"). Vertical on phones, horizontal on desktop. */
+    @keyframes process-fill-y {
+      from { transform: scaleY(0); }
+      to   { transform: none; }
+    }
+    @keyframes process-fill-x {
+      from { transform: scaleX(0); }
+      to   { transform: none; }
+    }
+    @keyframes process-node-on {
+      from { background-color: #fff; color: var(--color-brand); border-color: var(--color-line-strong); }
+      to   { background-color: var(--color-brand); color: #fff; border-color: var(--color-brand); }
+    }
+    .process {
+      view-timeline-name: --process;
+    }
+    .process-fill {
+      animation: process-fill-y linear both;
+      animation-timeline: --process;
+      animation-range: cover 20% cover 60%;
+    }
+    @media (min-width: 1024px) {
+      .process-fill {
+        animation-name: process-fill-x;
+        animation-range: cover 30% cover 55%;
+      }
+    }
+    .process-node {
+      animation: process-node-on linear both;
+      animation-timeline: --process;
+      animation-range:
+        cover calc(20% + (var(--i) / var(--n)) * 40%)
+        cover calc(22% + (var(--i) / var(--n)) * 40%);
+    }
+    @media (min-width: 1024px) {
+      .process-node {
+        animation-range:
+          cover calc(30% + (var(--i) / var(--n)) * 25%)
+          cover calc(32% + (var(--i) / var(--n)) * 25%);
+      }
+    }
+
+    /* Case-study story: the reading rail fills as the story scrolls past */
+    .story {
+      view-timeline-name: --story;
+    }
+    .story-fill {
+      animation: process-fill-y linear both;
+      animation-timeline: --story;
+      animation-range: cover 15% cover 85%;
+    }
+
+    /* Statement: each word fills from light grey to ink as the line scrolls
+       through the middle of the screen (codemagic.global's heading reveal).
+       --i / --n place each word along the range so it reads left to right. */
+    @keyframes word-fill {
+      from { color: var(--color-line-strong); }
+      to   { color: var(--color-ink); }
+    }
+    .statement {
+      view-timeline-name: --statement;
+    }
+    .statement-word {
+      animation: word-fill linear both;
+      animation-timeline: --statement;
+      animation-range:
+        cover calc(18% + (var(--i) / var(--n)) * 36%)
+        cover calc(22% + (var(--i) / var(--n)) * 36%);
+    }
+  }
+}
+
 /* ═══ Base ═══════════════════════════════════════════════════════════ */
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+}
+/* Lenis does the easing; native smooth scrolling on top of it would double up */
+html.lenis {
+  scroll-behavior: auto;
 }
 
 body {
@@ -233,7 +429,6 @@ p {
     transition-duration: 0.01ms !important;
   }
   .reveal { opacity: 1; transform: none; }
-  .marquee-track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -284,19 +479,6 @@ p {
 .reveal-delay-2 { transition-delay: 0.16s; }
 .reveal-delay-3 { transition-delay: 0.24s; }
 .reveal-delay-4 { transition-delay: 0.32s; }
-
-.card-hover {
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-}
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 40px rgba(29,78,216,0.10);
-  border-color: #bfdbfe;
-}
-
-@keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.marquee-track { display: flex; width: max-content; animation: marquee 24s linear infinite; }
-.marquee-track:hover { animation-play-state: paused; }
 
 .timeline-line {
   height: 2px;

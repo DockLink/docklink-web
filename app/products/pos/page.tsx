@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import ProductPOS from "@/components/pages/ProductPOS";
+import { getCaseStudySummaryBySlug } from "@/lib/cms/caseStudies";
+import { getProductBySlug } from "@/lib/cms/products";
 
-export const metadata: Metadata = {
-  title: "POS System",
-  description: "Faster billing and smarter inventory with DocLink POS.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const product = await getProductBySlug("pos");
+  return {
+    title: product.seoTitle,
+    description: product.seoDescription,
+  };
+}
 
-export default function Page() {
-  return <ProductPOS />;
+export default async function Page() {
+  const product = await getProductBySlug("pos");
+  const relatedCaseStudy = product.relatedCaseStudyId
+    ? await getCaseStudySummaryBySlug(product.relatedCaseStudyId)
+    : null;
+  return <ProductPOS data={product} relatedCaseStudy={relatedCaseStudy} />;
 }

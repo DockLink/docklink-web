@@ -1,0 +1,396 @@
+import type { ProductDocument, ProductListing, ProductSlug } from "./types";
+
+export const DEFAULT_LISTING: ProductListing = {
+  seoTitle: "Products",
+  seoDescription: "ERP, POS, and Doctor App — business software built for Sri Lankan companies.",
+  eyebrow: "Our Products",
+  headline: "Software for the Way Your Business Actually Runs",
+  subhead: "Three products. One ecosystem. Built for Sri Lankan SMEs who've outgrown spreadsheets.",
+  cta: {
+    headline: "Not sure which product fits?",
+    sub: "We'll tell you in 20 minutes — no sales pitch.",
+    buttonLabel: "Book a Demo",
+    href: "/contact",
+  },
+};
+
+export const DEFAULT_PRODUCTS: Record<ProductSlug, ProductDocument> = {
+  erp: {
+    id: "00000000-0000-4000-8000-000000000001",
+    slug: "erp",
+    name: "ERP System",
+    icon: "erp",
+    navBenefit: "Run every department from one screen",
+    listingDesc: "All-in-one system for accounting, inventory, HR and payroll",
+    listingCta: "Explore ERP",
+    listingBg: "from-blue-50 to-indigo-50/60",
+    published: true,
+    sortOrder: 1,
+    seoTitle: "ERP System",
+    seoDescription: "Run every department from one screen with DocLink ERP.",
+    eyebrow: "ERP System",
+    headline: "Stop Running Accounting, Inventory and Payroll on Separate Spreadsheets",
+    subhead: "One system. Every department. Always in sync.",
+    primaryCtaLabel: "Book a Demo",
+    primaryCtaHref: "/contact",
+    trustVariant: "default",
+    relatedCaseStudyId: "emaar",
+    cta: {
+      headline: "See DocLink ERP in your browser.",
+      sub: "Book a 20-minute demo — we'll show you your exact workflow.",
+      buttonLabel: "Book a Demo",
+      href: "/contact",
+    },
+    moduleGroups: [
+      {
+        id: "00000000-0000-4000-8000-000000000010",
+        label: "Sales & Money",
+        title: "The full quote-to-cash and books flow.",
+        intro: "From the first conversation with a customer to a closed invoice and a balanced ledger — all in one place.",
+        columns: 4,
+        sortOrder: 1,
+        modules: [
+          {
+            id: "00000000-0000-4000-8000-000000000021",
+            slug: "crm",
+            icon: "crm",
+            name: "CRM",
+            benefit: "Never lose a lead",
+            sortOrder: 1,
+            detail: {
+              id: "00000000-0000-4000-8000-000000000031",
+              title: "CRM",
+              sub: "Every lead, contact, and deal in one place.",
+              blocks: [
+                {
+                  id: "00000000-0000-4000-8000-000000000041",
+                  caption:
+                    "See every client interaction at a glance — calls, emails, and follow-up tasks all linked to the same record. No more digging through inboxes.",
+                  side: "left",
+                  visualKey: "erp-crm-pipeline",
+                  sortOrder: 1,
+                },
+                {
+                  id: "00000000-0000-4000-8000-000000000042",
+                  caption:
+                    "Automated follow-up reminders so your sales team closes deals instead of trying to remember who they called last Tuesday.",
+                  side: "right",
+                  visualKey: "erp-crm-followups",
+                  sortOrder: 2,
+                },
+              ],
+            },
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000022",
+            slug: "estimate-generation",
+            icon: "estimate",
+            name: "Estimate Generation",
+            benefit: "Quote in minutes",
+            sortOrder: 2,
+            detail: null,
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000023",
+            slug: "invoice-generation",
+            icon: "invoice",
+            name: "Invoice Generation",
+            benefit: "Get paid faster",
+            sortOrder: 3,
+            detail: {
+              id: "00000000-0000-4000-8000-000000000032",
+              title: "Invoice Generation",
+              sub: "From estimate to tax invoice in two clicks.",
+              blocks: [
+                {
+                  id: "00000000-0000-4000-8000-000000000043",
+                  caption:
+                    "Convert an approved estimate to a tax-compliant invoice with one click. The system fills in client details, line items, tax, and bank info automatically.",
+                  side: "left",
+                  visualKey: "erp-invoice",
+                  sortOrder: 1,
+                },
+              ],
+            },
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000024",
+            slug: "accounting",
+            icon: "accounting",
+            name: "Accounting",
+            benefit: "Books close themselves",
+            sortOrder: 4,
+            detail: {
+              id: "00000000-0000-4000-8000-000000000033",
+              title: "Accounting",
+              sub: "Real-time books — no month-end panic.",
+              blocks: [
+                {
+                  id: "00000000-0000-4000-8000-000000000044",
+                  caption:
+                    "Every sale, purchase, and payroll run posts to the ledger automatically. Your accountant gets a live trial balance — not a month-end surprise.",
+                  side: "left",
+                  visualKey: "erp-accounting",
+                  sortOrder: 1,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000011",
+        label: "Operations",
+        title: "The physical side of your business.",
+        intro: "Know what you have, where it is, and what needs reordering — without counting by hand.",
+        columns: 3,
+        sortOrder: 2,
+        modules: [
+          {
+            id: "00000000-0000-4000-8000-000000000025",
+            slug: "inventory-management",
+            icon: "inventory",
+            name: "Inventory Management",
+            benefit: "Always know what you have",
+            sortOrder: 1,
+            detail: {
+              id: "00000000-0000-4000-8000-000000000034",
+              title: "Inventory Management",
+              sub: "Know exactly what you have, where it is, and when it runs out.",
+              blocks: [
+                {
+                  id: "00000000-0000-4000-8000-000000000045",
+                  caption:
+                    "Real-time stock levels across every location. Reorder alerts fire automatically when items fall below your set threshold — before your team notices they're out.",
+                  side: "left",
+                  visualKey: "erp-inventory",
+                  sortOrder: 1,
+                },
+              ],
+            },
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000026",
+            slug: "stock-management",
+            icon: "stock",
+            name: "Stock Management",
+            benefit: "Zero-variance counts",
+            sortOrder: 2,
+            detail: null,
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000027",
+            slug: "rental-management",
+            icon: "rental",
+            name: "Rental Management",
+            benefit: "Track assets in real time",
+            sortOrder: 3,
+            detail: null,
+          },
+        ],
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000012",
+        label: "People",
+        title: "Managing your team.",
+        intro: "Employee records, leave tracking, and payroll calculated automatically every month.",
+        columns: 2,
+        sortOrder: 3,
+        modules: [
+          {
+            id: "00000000-0000-4000-8000-000000000028",
+            slug: "hr-management",
+            icon: "hr",
+            name: "HR Management",
+            benefit: "One file per employee",
+            sortOrder: 1,
+            detail: null,
+          },
+          {
+            id: "00000000-0000-4000-8000-000000000029",
+            slug: "payroll-management",
+            icon: "payroll",
+            name: "Payroll Management",
+            benefit: "Pay day in one click",
+            sortOrder: 2,
+            detail: {
+              id: "00000000-0000-4000-8000-000000000035",
+              title: "Payroll Management",
+              sub: "Run payroll for your entire team in under five minutes.",
+              blocks: [
+                {
+                  id: "00000000-0000-4000-8000-000000000046",
+                  caption:
+                    "Set up employee pay structures once. Every month, the system calculates EPF, ETF, and tax deductions automatically and generates a payslip for each employee.",
+                  side: "left",
+                  visualKey: "erp-payroll",
+                  sortOrder: 1,
+                },
+              ],
+            },
+          },
+        ],
+      },
+    ],
+    features: [],
+  },
+  pos: {
+    id: "00000000-0000-4000-8000-000000000002",
+    slug: "pos",
+    name: "POS System",
+    icon: "pos",
+    navBenefit: "Faster billing, smarter inventory",
+    listingDesc: "Smart sales and inventory for retail and restaurants",
+    listingCta: "Explore POS",
+    listingBg: "from-sky-50 to-blue-50/60",
+    published: true,
+    sortOrder: 2,
+    seoTitle: "POS System",
+    seoDescription: "Faster billing and smarter inventory with DocLink POS.",
+    eyebrow: "POS System",
+    headline: "Stop Reconciling Cash Drawers by Hand",
+    subhead: "Faster billing, live inventory, and end-of-day reports that close themselves.",
+    primaryCtaLabel: "Book a Demo",
+    primaryCtaHref: "/contact",
+    trustVariant: "default",
+    relatedCaseStudyId: "street82",
+    cta: {
+      headline: "See DocLink POS live at your counter.",
+      sub: "Book a demo — we'll show you your actual products in the system.",
+      buttonLabel: "Book a Demo",
+      href: "/contact",
+    },
+    moduleGroups: [],
+    features: [
+      {
+        id: "00000000-0000-4000-8000-000000000051",
+        label: "Sales & Order Management",
+        title: "Bill in under 10 seconds, every time.",
+        body: "Search products by name or barcode, add them to the cart, and charge the customer — card, cash, or QR. The receipt prints automatically. No delays, no errors.",
+        side: "left",
+        visualKey: "pos-sales",
+        sortOrder: 1,
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000052",
+        label: "Real-time Inventory Sync",
+        title: "Stock updates the moment you sell.",
+        body: "Every sale deducts from stock in real time across every branch. No separate stock-count step, no end-of-day reconciliation. Out-of-stock items go grey automatically.",
+        side: "right",
+        visualKey: "pos-inventory",
+        sortOrder: 2,
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000053",
+        label: "Multi-branch Support",
+        title: "Run three branches like they're one.",
+        body: "Every cashier in every branch shares the same product catalog and pricing. Transfers between branches are logged and visible to the head office in real time.",
+        side: "left",
+        visualKey: "pos-branches",
+        sortOrder: 3,
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000054",
+        label: "End-of-Day Reporting",
+        title: "Close the day in two minutes, not two hours.",
+        body: "The system generates your Z-report, cash variance, and sales-by-category breakdown at shift end. Export to PDF for your accountant or push directly to the ERP ledger.",
+        side: "right",
+        visualKey: "pos-eod",
+        sortOrder: 4,
+      },
+    ],
+  },
+  doctor: {
+    id: "00000000-0000-4000-8000-000000000003",
+    slug: "doctor",
+    name: "Doctor App",
+    icon: "doctor",
+    navBenefit: "Your practice in your pocket",
+    listingDesc: "Mobile practice management for clinicians",
+    listingCta: "Explore App",
+    listingBg: "from-slate-50 to-blue-50/40",
+    published: true,
+    sortOrder: 3,
+    seoTitle: "Doctor App",
+    seoDescription: "Your practice in your pocket — DocLink Doctor App.",
+    eyebrow: "Doctor App",
+    headline: "Manage Your Practice From Your Phone",
+    subhead: "Patient records, appointments, and prescriptions — always with you.",
+    primaryCtaLabel: "Book a Demo",
+    primaryCtaHref: "/contact",
+    trustVariant: "security",
+    relatedCaseStudyId: null,
+    cta: {
+      headline: "See it running on your own device.",
+      sub: "Book a demo — we'll walk you through a live patient workflow.",
+      buttonLabel: "Book a Demo",
+      href: "/contact",
+    },
+    moduleGroups: [],
+    features: [
+      {
+        id: "00000000-0000-4000-8000-000000000061",
+        label: "Patient Records",
+        title: "Every patient. Every visit. One tap away.",
+        body: "Complete medical histories, allergies, diagnoses, vitals, and visit notes are stored securely per patient. No paper files to lose, no illegible handwriting to decipher.",
+        side: "left",
+        visualKey: "doctor-records",
+        sortOrder: 1,
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000062",
+        label: "Appointment Scheduling",
+        title: "A fully booked calendar, managed in seconds.",
+        body: "Set your availability once. Patients or staff book appointments into open slots — no phone tag, no double-booking. Reminders fire automatically the night before.",
+        side: "right",
+        visualKey: "doctor-appointments",
+        sortOrder: 2,
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000063",
+        label: "Prescriptions",
+        title: "Write a prescription in under a minute.",
+        body: "Search your drug formulary, set dosage and duration, and sign digitally. The prescription is sent to the patient's pharmacy directly — no paper, no lost slips.",
+        side: "left",
+        visualKey: "doctor-prescriptions",
+        sortOrder: 3,
+      },
+      {
+        id: "00000000-0000-4000-8000-000000000064",
+        label: "Mobile-first Workflow",
+        title: "Designed to be used on a ward round.",
+        body: "Large touch targets, offline mode when the wifi drops, and a layout that works with one hand. It feels like a consumer app because your time on the ward is too valuable for clunky software.",
+        side: "right",
+        visualKey: "doctor-ward",
+        sortOrder: 4,
+      },
+    ],
+  },
+};
+
+export function defaultProduct(slug: ProductSlug): ProductDocument {
+  return structuredClone(DEFAULT_PRODUCTS[slug]);
+}
+
+export function defaultListing(): ProductListing {
+  return structuredClone(DEFAULT_LISTING);
+}
+
+export function defaultProductSummaries() {
+  return (Object.values(DEFAULT_PRODUCTS) as ProductDocument[])
+    .slice()
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((product) => ({
+      id: product.id,
+      slug: product.slug,
+      name: product.name,
+      icon: product.icon,
+      navBenefit: product.navBenefit,
+      listingDesc: product.listingDesc,
+      listingCta: product.listingCta,
+      listingBg: product.listingBg,
+      published: product.published,
+      sortOrder: product.sortOrder,
+      updatedAt: product.updatedAt,
+    }));
+}

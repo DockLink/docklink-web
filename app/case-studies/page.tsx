@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import CaseStudies from "@/components/pages/CaseStudies";
+import { getCaseStudyListing, getPublishedCaseStudySummaries } from "@/lib/cms/caseStudies";
 
-export const metadata: Metadata = {
-  title: "Case Studies",
-  description: "Real results from DocLink deployments across Sri Lanka.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const listing = await getCaseStudyListing();
+  return {
+    title: listing.seoTitle,
+    description: listing.seoDescription,
+  };
+}
 
-export default function Page() {
-  return <CaseStudies />;
+export default async function Page() {
+  const [listing, studies] = await Promise.all([getCaseStudyListing(), getPublishedCaseStudySummaries()]);
+  return <CaseStudies listing={listing} studies={studies} />;
 }

@@ -1,241 +1,243 @@
-'use client';
+import type { CSSProperties } from "react";
+import { Building2, CalendarDays, MapPin, Rocket, Store, Users } from "lucide-react";
+import ProductCTA from "@/components/ProductCTA";
+import CountUp from "@/components/home/CountUp";
+import ProductShot from "@/components/ui/ProductShot";
+import { Container, Section } from "@/components/ui/Section";
+import { Heading } from "@/components/ui/Typography";
+import { company, companyStats } from "@/data/company";
 
-import { companyStats } from '@/data/company'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import ProductCTA from '@/components/ProductCTA'
-import { DocLinkIcon } from '@/components/icons/DocLinkIcons'
+const delay = (ms: number) => ({ "--enter-delay": `${ms}ms` }) as CSSProperties;
 
+// [TBC] Team members are unverified (see TODO.md)
 const team = [
   {
-    initials: 'NS',
-    name: 'Nuwan Samarasinghe',
-    role: 'Founder & CEO',
-    bio: 'Former enterprise systems consultant. Has seen every flavour of Sri Lankan business process still running on paper.',
-    gradient: 'from-[#1e3a8a] to-[#1D4ED8]',
+    initials: "NS",
+    name: "Nuwan Samarasinghe",
+    role: "Founder & CEO",
+    bio: "Former enterprise systems consultant. Has seen every flavour of Sri Lankan business process still running on paper.",
   },
   {
-    initials: 'PT',
-    name: 'Priya Thilakaratne',
-    role: 'Head of Engineering',
-    bio: '10 years building bespoke systems for manufacturing, retail, and healthcare clients across the region.',
-    gradient: 'from-[#1D4ED8] to-[#0284c7]',
+    initials: "PT",
+    name: "Priya Thilakaratne",
+    role: "Head of Engineering",
+    bio: "10 years building bespoke systems for manufacturing, retail, and healthcare clients across the region.",
   },
   {
-    initials: 'RJ',
-    name: 'Ravindu Jayasekara',
-    role: 'Head of Delivery',
-    bio: 'Keeps every project on schedule. Runs discovery sprints, manages stakeholder sign-offs, and chases the final 10%.',
-    gradient: 'from-[#1e3a8a] to-[#1D4ED8]',
+    initials: "RJ",
+    name: "Ravindu Jayasekara",
+    role: "Head of Delivery",
+    bio: "Keeps every project on schedule. Runs discovery sprints, manages stakeholder sign-offs, and chases the final 10%.",
   },
   {
-    initials: 'AF',
-    name: 'Amali Fernando',
-    role: 'Client Success Lead',
-    bio: 'Handles onboarding, training, and every support ticket. The reason clients stay long after go-live.',
-    gradient: 'from-[#1D4ED8] to-[#0284c7]',
+    initials: "AF",
+    name: "Amali Fernando",
+    role: "Client Success Lead",
+    bio: "Handles onboarding, training, and every support ticket. The reason clients stay long after go-live.",
   },
-]
+];
 
+// [TBC] Figures are unverified (see TODO.md)
 const stats = [
-  { number: companyStats.years.value, label: 'Years building for Sri Lankan businesses' },
-  { number: companyStats.clients.value, label: 'Clients across retail, healthcare, and services' },
-  { number: companyStats.projects.value, label: 'Projects delivered end-to-end' },
-  { number: companyStats.uptime.value, label: 'Uptime across all hosted platforms' },
-]
+  { number: companyStats.years.value, label: "Years building for Sri Lankan businesses" },
+  { number: companyStats.clients.value, label: "Clients across retail, healthcare, and services" },
+  { number: companyStats.projects.value, label: "Projects delivered end-to-end" },
+  { number: companyStats.uptime.value, label: "Uptime across all hosted platforms" },
+];
+
+const principles = [
+  { icon: Store, label: "SME-first", sub: "Pricing and scope sized for real Sri Lankan businesses" },
+  { icon: Rocket, label: "Fast deploys", sub: "Weeks to live, not quarters — no drawn-out enterprise timelines" },
+  { icon: Users, label: "Same team", sub: "The team that built your system handles your support" },
+];
+
+const storyLine = "We started because we saw the same spreadsheet across a hundred businesses.";
 
 export default function About() {
-  useScrollReveal()
+  const words = storyLine.split(" ");
+
   return (
     <>
-      {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="relative pt-28 pb-20 bg-white overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="blob absolute -top-24 right-0 w-[440px] h-[440px] opacity-[0.09]"
-            style={{ background: 'radial-gradient(circle,#1D4ED8 0%,transparent 70%)' }}
-          />
-          <svg className="absolute inset-0 w-full h-full opacity-[0.025]" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="about-grid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="#1D4ED8"/></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#about-grid)"/>
-          </svg>
-        </div>
-        <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <div className="fade-up-1 inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] animate-pulse"/>
-            <span className="text-[11.5px] font-semibold text-[#1D4ED8] tracking-wide">About DocLink</span>
-          </div>
-          <h1 className="fade-up-2 font-display font-black text-[37px] sm:text-[48px] xl:text-[62px] leading-[1.05] tracking-[-0.02em] text-slate-900 mb-5">
-            Built for the businesses<br/>
-            <span className="gradient-text">running on paper</span>
-          </h1>
-          <p className="fade-up-3 text-[16.5px] text-slate-500 max-w-xl mx-auto leading-relaxed">
-            DocLink Technologies builds ERP, POS, and custom software for Sri Lankan SMEs — companies where the owner is still the system.
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section aria-labelledby="about-title" className="bg-white">
+        <Container className="pb-12 pt-10 sm:pb-16 sm:pt-14 lg:pt-16">
+          <p className="enter text-sm font-medium text-brand">About DocLink</p>
+          <Heading level={1} size="1" id="about-title" className="enter mt-4 max-w-[18ch]" style={delay(80)}>
+            Built for the businesses running on paper
+          </Heading>
+          <p className="enter mt-5 max-w-[56ch] text-lg text-muted sm:text-xl" style={delay(200)}>
+            DocLink Technologies builds ERP, POS, and custom software for Sri Lankan SMEs — companies where the owner is
+            still the system.
           </p>
-        </div>
-      </section>
-
-      {/* ── Story — split layout ───────────────────────────────────────────── */}
-      <section className="py-24 bg-[#FAFBFC]">
-        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text */}
-          <div className="reveal">
-            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#1D4ED8] mb-4 block">Our Story</span>
-            <h2 className="font-display font-black text-[36px] xl:text-[44px] leading-[1.1] tracking-[-0.02em] text-slate-900 mb-6">
-              We started because we saw the same spreadsheet across a hundred businesses
-            </h2>
-            <div className="space-y-4 text-[15.5px] text-slate-500 leading-relaxed">
-              <p>
-                DocLink was founded in Colombo after years of watching capable, growing businesses grind against the same bottleneck: all the intelligence locked in the founder&apos;s head, a handful of spreadsheets, and a WhatsApp group.
-              </p>
-              <p>
-                We set out to build software that fits how Sri Lankan SMEs actually work — not how an enterprise vendor thinks they should. That means deployments that take weeks, not quarters. Pricing that a real business can absorb. Support from the same team that built it.
-              </p>
-              <p>
-                {companyStats.projects.value} projects later, that&apos;s still the mission.
-              </p>
-            </div>
-            <div className="mt-8 pt-8 border-t border-[#E5E7EB]">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e3a8a] to-[#1D4ED8] flex items-center justify-center shrink-0">
-                  <span className="font-display font-black text-white text-sm">DL</span>
-                </div>
-                <div>
-                  <div className="text-[13px] font-semibold text-slate-800">DocLink Technologies (Pvt) Ltd</div>
-                  <div className="text-[12px] text-slate-400">Est. 2019 · Colombo, Sri Lanka</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Office / team illustration */}
-          <div className="reveal">
-            <div className="rounded-[24px] overflow-hidden border border-[#E5E7EB] shadow-xl shadow-slate-100/80 bg-white aspect-[4/3] relative">
-              {/* Illustrated office stand-in */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#F5F8FF] to-white flex flex-col items-center justify-center p-10">
-                <div className="grid grid-cols-3 gap-4 w-full max-w-xs">
-                  {['NS','PT','RJ','AF','KP','MF'].map((init,i)=>(
-                    <div key={i} className={`aspect-square rounded-2xl bg-gradient-to-br ${i%2===0?'from-[#1e3a8a] to-[#1D4ED8]':'from-[#1D4ED8] to-[#0284c7]'} flex items-center justify-center shadow-md`}>
-                      <span className="font-display font-black text-white text-lg">{init}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-8 text-center">
-                  <div className="font-display font-bold text-[15px] text-slate-700">The DocLink Team</div>
-                  <div className="text-[12px] text-slate-400 mt-1">Colombo 07, Sri Lanka</div>
-                </div>
-              </div>
-              {/* Corner badge */}
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm border border-[#E5E7EB] rounded-xl px-3 py-2 shadow-sm">
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Office</div>
-                <div className="text-[12px] font-semibold text-slate-700">Colombo, LK</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Why Sri Lankan SMEs ───────────────────────────────────────────── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-5xl mx-auto px-6 reveal">
-          <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#1D4ED8] block mb-4">Why Sri Lankan SMEs</span>
-              <h2 className="font-display font-black text-[32px] xl:text-[38px] leading-[1.12] tracking-[-0.02em] text-slate-900">
-                The market global SaaS vendors built nothing for
-              </h2>
-            </div>
-            <div className="space-y-5 text-[15.5px] text-slate-500 leading-relaxed pt-1">
-              <p>
-                Most SME software is designed for a business owner in San Francisco or London who&apos;s already digitised. It assumes a CRM is already running, that the team knows what &quot;cloud sync&quot; means, and that someone in-house can run an implementation.
-              </p>
-              <p>
-                Sri Lankan SMEs are different. The owner is often the accountant, the sales manager, and the warehouse supervisor. Payroll runs on a spreadsheet someone built eight years ago. Inventory is a physical ledger the cashier maintains by hand. Stock discrepancies go unnoticed for months.
-              </p>
-              <p>
-                That&apos;s not a failure of the business — it&apos;s a gap in the software market. DocLink exists to fill that gap: local-language support, local pricing, and software designed around the workflow that already exists, not the workflow a vendor assumes you have.
-              </p>
-              <div className="grid grid-cols-3 gap-6 pt-4 border-t border-[#E5E7EB]">
-                {[
-                  { icon: 'sme' as const, label: 'SME-first', sub: 'Pricing and scope sized for real Sri Lankan businesses' },
-                  { icon: 'fast' as const, label: 'Fast deploys', sub: 'Weeks to live, not quarters — no drawn-out enterprise timelines' },
-                  { icon: 'team' as const, label: 'Same team', sub: 'The team that built your system handles your support' },
-                ].map(f => (
-                  <div key={f.label}>
-                    <div className="w-10 h-10 rounded-xl bg-[#F5F8FF] border border-blue-50 text-[#1D4ED8] flex items-center justify-center mb-2">
-                      <DocLinkIcon name={f.icon} size={18} />
-                    </div>
-                    <div className="font-semibold text-[14px] text-slate-800 mb-1">{f.label}</div>
-                    <div className="text-[12.5px] text-slate-400 leading-snug">{f.sub}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Leadership ────────────────────────────────────────────────────── */}
-      <section className="py-24 bg-[#FAFBFC]">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-14 reveal">
-            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#1D4ED8] block mb-3">Leadership</span>
-            <h2 className="font-display font-black text-[36px] xl:text-[44px] leading-[1.1] tracking-[-0.02em] text-slate-900">
-              The people behind the product
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, i) => (
-              <div
-                key={member.name}
-                className={`group bg-white rounded-[20px] border border-[#E5E7EB] overflow-hidden hover:-translate-y-1 hover:shadow-lg hover:shadow-slate-200/60 transition-all reveal reveal-delay-${(i % 4) + 1}`}
-              >
-                {/* Avatar strip */}
-                <div className={`h-[88px] bg-gradient-to-br ${member.gradient} flex items-end px-5 pb-0 relative overflow-hidden`}>
-                  <svg className="absolute inset-0 w-full h-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
-                    <defs><pattern id={`tm-${i}`} width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="white"/></pattern></defs>
-                    <rect width="100%" height="100%" fill={`url(#tm-${i})`}/>
-                  </svg>
-                  <div className="relative w-14 h-14 rounded-2xl bg-white/20 border-2 border-white/30 flex items-center justify-center translate-y-7 shadow-md">
-                    <span className="font-display font-black text-white text-xl leading-none">{member.initials}</span>
-                  </div>
-                </div>
-                {/* Body */}
-                <div className="pt-10 px-5 pb-6">
-                  <div className="font-display font-bold text-[15px] text-slate-900 mb-0.5">{member.name}</div>
-                  <div className="text-[12px] font-semibold text-[#1D4ED8] mb-3">{member.role}</div>
-                  <p className="text-[12.5px] text-slate-500 leading-relaxed">{member.bio}</p>
-                </div>
+          <dl className="enter mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm" style={delay(320)}>
+            {[
+              { icon: Building2, label: "Company", value: company.legalName },
+              { icon: CalendarDays, label: "Founded", value: `Est. ${company.founded}` },
+              { icon: MapPin, label: "Based in", value: `${company.address.city}, ${company.address.country}` },
+            ].map(({ icon: Icon, label, value }) => (
+              <div key={label} className="flex items-center gap-2">
+                <Icon aria-hidden className="size-4 text-subtle" strokeWidth={1.75} />
+                <dt className="sr-only">{label}</dt>
+                <dd className="text-muted">{value}</dd>
               </div>
             ))}
+          </dl>
+        </Container>
+      </section>
+
+      {/* ── Stats ────────────────────────────────────────────────────── */}
+      <section aria-label="DocLink at a glance" className="border-y border-line bg-white">
+        <Container>
+          <dl className="grid grid-cols-2 lg:grid-cols-4">
+            {stats.map((s, i) => (
+              <div
+                key={s.label}
+                className={[
+                  "py-8 sm:py-10",
+                  i % 2 === 1 ? "border-l border-line pl-4 sm:pl-8" : "pr-4 sm:pr-8",
+                  i > 1 ? "border-t border-line lg:border-t-0" : "",
+                  i === 2 ? "lg:border-l lg:pl-8" : "",
+                ].join(" ")}
+              >
+                <dt className="sr-only">{s.label}</dt>
+                {/* Stat highlight: a permitted use of the brand gradient */}
+                <dd className="whitespace-nowrap bg-gradient-brand bg-clip-text text-4xl font-semibold text-transparent sm:text-5xl">
+                  <CountUp value={s.number} />
+                </dd>
+                <dd aria-hidden className="mt-2 text-sm text-muted">
+                  {s.label}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      </section>
+
+      {/* ── Story: one line that fills word by word, then the detail ── */}
+      <section aria-labelledby="story-title" className="statement bg-white pb-section pt-section">
+        <Container>
+          <p className="text-sm font-medium text-brand">Our story</p>
+          <h2 id="story-title" className="mt-4 max-w-[26ch] text-3xl font-semibold sm:text-4xl lg:text-5xl">
+            {words.map((word, i) => (
+              <span key={i} className="statement-word" style={{ "--i": i, "--n": words.length } as CSSProperties}>
+                {word}
+                {i < words.length - 1 ? " " : ""}
+              </span>
+            ))}
+          </h2>
+
+          <div className="mt-12 grid gap-10 lg:mt-16 lg:grid-cols-12 lg:gap-16">
+            <div className="scroll-rise space-y-5 text-lg text-muted lg:col-span-5">
+              <p>
+                DocLink was founded in Colombo after years of watching capable, growing businesses grind against the same
+                bottleneck: all the intelligence locked in the founder&apos;s head, a handful of spreadsheets, and a
+                WhatsApp group.
+              </p>
+              <p>
+                We set out to build software that fits how Sri Lankan SMEs actually work — not how an enterprise vendor
+                thinks they should. That means deployments that take weeks, not quarters. Pricing that a real business can
+                absorb. Support from the same team that built it.
+              </p>
+              <p>{companyStats.projects.value} projects later, that&apos;s still the mission.</p>
+            </div>
+            <div className="scroll-zoom lg:col-span-7">
+              {/* Replaces the initials-tile "office" illustration until a real photo is supplied */}
+              <ProductShot
+                label="DocLink team or office photo"
+                expectedPath="public/about/team.jpg"
+                ratio="4 / 3"
+                sizes="(min-width: 1024px) 680px, 100vw"
+              />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Why Sri Lankan SMEs ──────────────────────────────────────── */}
+      <Section tone="surface" aria-labelledby="why-title">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <div className="scroll-rise lg:sticky lg:top-28">
+              <p className="text-sm font-medium text-brand">Why Sri Lankan SMEs</p>
+              <Heading level={2} size="2" id="why-title" className="mt-4 max-w-[18ch]">
+                The market global SaaS vendors built nothing for
+              </Heading>
+            </div>
+          </div>
+          <div className="lg:col-span-7">
+            <div className="scroll-rise space-y-5 text-lg text-muted">
+              <p>
+                Most SME software is designed for a business owner in San Francisco or London who&apos;s already
+                digitised. It assumes a CRM is already running, that the team knows what &quot;cloud sync&quot; means,
+                and that someone in-house can run an implementation.
+              </p>
+              <p>
+                Sri Lankan SMEs are different. The owner is often the accountant, the sales manager, and the warehouse
+                supervisor. Payroll runs on a spreadsheet someone built eight years ago. Inventory is a physical ledger
+                the cashier maintains by hand. Stock discrepancies go unnoticed for months.
+              </p>
+              <p>
+                That&apos;s not a failure of the business — it&apos;s a gap in the software market. DocLink exists to
+                fill that gap: local-language support, local pricing, and software designed around the workflow that
+                already exists, not the workflow a vendor assumes you have.
+              </p>
+            </div>
+
+            <ul className="mt-10 grid gap-4 sm:grid-cols-3">
+              {principles.map(({ icon: Icon, label, sub }, i) => (
+                <li
+                  key={label}
+                  className="scroll-rise spotlight group rounded-surface border border-line bg-white p-5 transition-colors duration-(--dur-base) hover:border-line-strong"
+                  style={{ "--rise-i": i } as CSSProperties}
+                >
+                  <span className="flex size-10 items-center justify-center rounded-control bg-brand-soft text-brand transition-colors duration-(--dur-base) ease-standard group-hover:bg-brand group-hover:text-white">
+                    <Icon aria-hidden className="size-5" strokeWidth={1.75} />
+                  </span>
+                  <p className="mt-4 font-medium text-ink">{label}</p>
+                  <p className="mt-1 text-sm text-muted">{sub}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* ── Stats band ────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-br from-[#1e3a8a] to-[#1D4ED8] py-16 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.06] pointer-events-none">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs><pattern id="about-stat-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.5" fill="white"/></pattern></defs>
-            <rect width="100%" height="100%" fill="url(#about-stat-dots)"/>
-          </svg>
+      {/* ── Leadership ───────────────────────────────────────────────── */}
+      <Section aria-labelledby="team-title">
+        <div className="scroll-rise">
+          <p className="text-sm font-medium text-brand">Leadership</p>
+          <Heading level={2} size="2" id="team-title" className="mt-4">
+            The people behind the product
+          </Heading>
         </div>
-        <div className="relative max-w-5xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((s, i) => (
-            <div key={i} className="text-center reveal">
-              <div className="font-display font-black text-[34px] sm:text-[44px] xl:text-[52px] text-white leading-none mb-2">{s.number}</div>
-              <div className="text-[13px] text-white/60 leading-snug">{s.label}</div>
-            </div>
+
+        <ul className="mt-12 grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+          {team.map((member, i) => (
+            <li
+              key={member.name}
+              className="scroll-rise spotlight group flex flex-col rounded-surface border border-line bg-white p-6 transition-colors duration-(--dur-base) hover:border-line-strong"
+              style={{ "--rise-i": i } as CSSProperties}
+            >
+              <span
+                aria-hidden
+                className="flex size-14 items-center justify-center rounded-full bg-navy text-base font-semibold text-white transition-[background-color,transform] duration-(--dur-slow) ease-standard group-hover:-translate-y-0.5 group-hover:bg-brand"
+              >
+                {member.initials}
+              </span>
+              <p className="mt-6 font-semibold text-ink">{member.name}</p>
+              <p className="mt-0.5 text-sm font-medium text-brand">{member.role}</p>
+              <p className="mt-3 text-sm text-muted">{member.bio}</p>
+            </li>
           ))}
-        </div>
-      </section>
+        </ul>
+      </Section>
 
-      {/* ── CTA ───────────────────────────────────────────────────────────── */}
       <ProductCTA
-        headline="Let's Build Something Together"
+        headline="Let's build something together"
         sub="Tell us what you're running on today. We'll tell you what's possible."
-        buttonLabel="Start the Conversation"
+        buttonLabel="Start the conversation"
         href="/contact"
       />
     </>
-  )
+  );
 }
